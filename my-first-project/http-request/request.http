@@ -1,0 +1,11 @@
+# curl localhost:8080/time
+GET localhost:8080/time
+
+###
+
+GET localhost:8080/hellokitty
+
+###
+
+
+
