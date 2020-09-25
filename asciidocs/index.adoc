@@ -42,3 +42,26 @@ Server -> client : response
 == 2020-09-25
 
 * Was ist ein REST-Service?
+
+* Präsentation 04_REST_Uebersicht besprochen (bis Folie 20 - EFSP)
+* http://edufs.edu.htl-leonding.ac.at/~t.stuetz/download/nvs/presentations.2021/02_microprofile.pdf[04_REST_Uebersicht, window="_blank"]
+
+=== Begriff des Marshalling
+
+[plantuml,marshalling,png]
+----
+@startuml
+storage "java-object" as javaobject
+file json
+javaobject -right-> json :marshalling >
+@enduml
+----
+
+[plantuml,unmarshalling,png]
+----
+@startuml
+storage "java-object" as javaobject
+file json
+javaobject <-right- json :< unmarshalling
+@enduml
+----

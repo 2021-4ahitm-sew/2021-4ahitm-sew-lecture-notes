@@ -3,7 +3,7 @@ GET localhost:8080/time
 
 ###
 
-GET localhost:8080/hellokitty
+GET localhost:8080/person
 
 ###
 
