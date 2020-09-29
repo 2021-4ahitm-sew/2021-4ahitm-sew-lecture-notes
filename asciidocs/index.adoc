@@ -65,3 +65,58 @@ file json
 javaobject <-right- json :< unmarshalling
 @enduml
 ----
+
+
+== 2020-09-29
+
+maven Lifecycle
+
+=== Mögliche REST-Clients
+
+* Browser
+* Browser-Extension
+** RESTClient
+* REST-Client in IDE (files mit .http-Endung)
+* CLI-clients
+** cURL
+** httpie `http :8080/person Accept:application/json`
+* Standalone Clients
+** Postman
+** Insomnia
+* Selbstprogrammierte Clients
+
+
+=== MediaType in Produces
+
+schränkt die möglichen MIME-Types ein
+
+
+=== Rückgabetypen
+
+* String
+* Entity - Klasse
+** JAXB - XML-Binding (XML-Marshalling)
+** JSON-B - Json-Binding (Json-Marshalling)
+* JsonObject / JsonArray / JsonValue
+* Response
+** Statuscode kann gewählt werden
+** Header-Entries können hinzugefügt werden
+** uvam.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
