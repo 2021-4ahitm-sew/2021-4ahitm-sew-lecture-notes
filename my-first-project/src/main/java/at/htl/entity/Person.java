@@ -1,5 +1,8 @@
 package at.htl.entity;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Person {
     
     private String name;

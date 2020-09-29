@@ -4,8 +4,35 @@ GET localhost:8080/time
 ###
 
 GET localhost:8080/person
+Accept: application/xml
 
 ###
+
+GET localhost:8080/person
+Accept: application/json
+
+###
+
+GET localhost:8080/person
+Accept: text/plain
+
+###
+
+GET localhost:8080/person/zk
+Accept: text/plain
+
+###
+
+GET localhost:8080/person/zk
+Accept: application/xml
+
+###
+GET localhost:8080/person/json
+Accept: application/json
+
+###
+
+
 
 
 
