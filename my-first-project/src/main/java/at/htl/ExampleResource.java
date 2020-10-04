@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/person")
 public class ExampleResource {
@@ -37,6 +38,27 @@ public class ExampleResource {
                 .createObjectBuilder()
                 .add("name", "Marah")
                 .add("dob", "2003-08-22")
+                .build();
+    }
+
+    @GET
+    @Path("/response")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findPersonResponse() {
+        JsonObject marah = Json
+                .createObjectBuilder()
+                .add("name", "Marah")
+                .add("dob", "2003-08-22")
+                .build();
+        
+        Person jonas = new Person("Jonas der Beifahrer");
+
+        //JsonObject j = Json.createReader().readObject()
+        
+        
+        return Response
+                .ok()
+                .header("hip", "hop")
                 .build();
     }
 

@@ -27,7 +27,13 @@ GET localhost:8080/person/zk
 Accept: application/xml
 
 ###
+
 GET localhost:8080/person/json
+Accept: application/json
+
+###
+
+GET localhost:8080/person/response
 Accept: application/json
 
 ###

@@ -17,6 +17,11 @@ ifdef::backend-html5[]
 //icon:home[link=https://htl-leonding.github.io/]
 endif::backend-html5[]
 
+====
+Testtermin: 4.12.2020
+Prüfungen:
+====
+
 == 2020-09-22
 
 * http://edufs.edu.htl-leonding.ac.at/~t.stuetz/download/nvs/presentations.2021/00_java.oekosystem.pdf[00_java.oekosystem.pdf, window="_blank"]
@@ -103,8 +108,12 @@ schränkt die möglichen MIME-Types ein
 ** Header-Entries können hinzugefügt werden
 ** uvam.
 
+== 2020-10-02
 
-
+.Was ist?
+- Jakarta EE
+- microprofile
+- Quarkus
 
 
 
