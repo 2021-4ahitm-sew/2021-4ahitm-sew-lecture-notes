@@ -119,15 +119,178 @@ schränkt die möglichen MIME-Types ein
 - http://edufs.edu.htl-leonding.ac.at/~t.stuetz/download/nvs/presentations.2021/04_REST_Uebersicht.pdf[04_REST_Uebersicht.pdf, window="_blank"]
 
 
-==
+== 2020-10-06
+
+* REST wiederholt
+* POST & PUT Methoden erstellt und ausprobiert (CRUD)
+* JsonValue, JsonObject & JsonArray verglichen
+* Typen von Parametern besprochen
+** https://mincong.io/2018/11/27/jax-rs-parameters/#overview
 
 
+.Mikroprojekte - Themenvergabe
+//[%collapsible%open]
+[%collapsible]
+====
+[cols="1,5,5,2"]
+|===
+|lfd.Nr. |Name |Thema |-
 
+|{counter:usage}
+|BM
+|Friedhofsverwaltung
+|
 
+|{counter:usage}
+|DJ
+|Produktionsbetrieb (Fließband)
+|
 
+|{counter:usage}
+|DF
+|Centermanager
+|
 
+|{counter:usage}
+|EQ
+|Baustellenkoordinator
+|
 
+|{counter:usage}
+|EP
+|Baumschule
+|
 
+|{counter:usage}
+|FS
+|Kochrezepte
+|
+
+|{counter:usage}
+|FJ
+|Farmverwaltung
+|
+
+|{counter:usage}
+|HT
+|Optiker
+|
+
+|{counter:usage}
+|KS
+|Facility Management
+|
+
+|{counter:usage}
+|KF
+|Zooverwaltung
+|
+
+|{counter:usage}
+|KS2
+|Event-Manager
+|
+
+|{counter:usage}
+|MR
+|Reisebüro
+|
+
+|{counter:usage}
+|MA
+|Plattenlabel
+|
+
+|{counter:usage}
+|OJ
+|Parkplatzverwaltung
+|
+
+|{counter:usage}
+|PV
+|Skischule
+|
+
+|{counter:usage}
+|RJ
+|Fitnessstudio
+|
+
+|{counter:usage}
+|SS
+|Fakturierung
+|
+
+|{counter:usage}
+|SL
+|Kfz-Händler
+|icon:uncheck[]
+
+|{counter:usage}
+|SM
+|Friseurladen
+|icon:uncheck[]
+
+|{counter:usage}
+|TS
+|Restaurant
+|icon:uncheck[]
+
+|{counter:usage}
+|TK
+|Callcenter
+|icon:uncheck[]
+
+|{counter:usage}
+|TI
+|Busreisen (inkl Schulbusse)
+|
+
+|{counter:usage}
+|WN
+|Autovermietung
+|
+
+|{counter:usage}
+|WJ
+|Tanzschule
+|icon:uncheck[]
+
+|===
+
+====
+
+=== Assignment 01: Erstellen von Endpoints für eine Entität mit CRUD-Funktionalität
+
+* Erstellen Sie ein Quarkus-Projekt mit folgender Bezeichnung:
+. nachname-projektname zB mustermann-restaurant
+. Im Package `at.htl.<projektname>.entity` zB. `at.htl.restaurant.entity` erstellen Sie eine Entitätsklasse zB Product
+   (in diesem Restaurant sind die Produkte die Speisen und Getränke)
+. Die Daten der Stammdaten sind in einer Collection in einem geeigneten Repository zu speichern
+(Es ist KEINE Datenbank zu verwenden).
+. Im Package `at.htl.<projektname>.boundary` (zB `at.htl.restaurant.boundary`) erstellen
+Sie ein Klasse <Entity>Service.java zB ProductService.java
+. In dieser Klasse erstellen Sie mehrere Endpoints, um die CRUD-Funktionalität für die von Ihnen
+gewählte Entität zu implementieren.
+. In einem File `request.http` erstellen Sie die geeigneten Request, um ihre Endppoints auzuprobieren
+. Die Requests funktionieren mit Daten wahlweise im JSON- oder XML-Format
+. Verwenden Sie Swagger, um Ihre Endpoints zu dokumentieren
+. Im README.md ihres Repos dokumentieren Sie dieser (erste) Aufgabe rudimentär.
+. Vergessen sie nicht, die nicht in das github-repo zu speichernden Dateien zu exkludieren.
+. Für jeden Endpoint ist ein Commit mit einer aussagekräftigen Message zu erstellen.
+. *Abgabe bis 12.Oktober 2020, 23:59*
+. Den Link zum Classroom-Repository finden Sie im Discord.
+
+TIP: Verwenden Sie eine Stammdatenklasse.
+
+----
+____   ____.__       .__    ___________        _____      .__
+\   \ /   /|__| ____ |  |   \_   _____/_______/ ____\____ |  |    ____
+ \   Y   / |  |/ __ \|  |    |    __)_\_  __ \   __\/  _ \|  |   / ___\
+  \     /  |  \  ___/|  |__  |        \|  | \/|  | (  <_> )  |__/ /_/  >
+   \___/   |__|\___  >____/ /_______  /|__|   |__|  \____/|____/\___  /
+                   \/               \/                         /_____/
+----
 
 
 
