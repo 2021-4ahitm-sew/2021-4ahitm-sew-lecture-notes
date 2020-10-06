@@ -4,9 +4,8 @@ import at.htl.entity.Person;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.json.JsonValue;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -62,5 +61,43 @@ public class ExampleResource {
                 .build();
     }
 
+    private int counter;
+    private String coolestStudent;
+
+    @PUT
+    @Path("cool")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String cool(Person person){
+        this.coolestStudent = person.getName();
+        return String.format("%s is cool", this.coolestStudent);
+    }
+
+    @POST
+    @Path("jsontype")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String jsonType(JsonValue value){
+
+        // Wenn OBJECT, dann gib das Objekt aus
+        // wenn ARRAY, dann gib alle Elemente aus
+        if (value.getValueType().equals(JsonValue.ValueType.OBJECT)){
+            return value.toString();
+        } else {
+            String names ="";
+            // iteriere durch das array
+            for (JsonValue v : value.asJsonArray()) {
+                names = names + "\n"
+                        + v.asJsonObject().getString("vorname")
+                        + " "
+                        + v.asJsonObject().getString("nachname");
+            }
+            return names;
+        }
+    }
+
+    @POST
+    @Path("cnt")
+    public int counter(){
+        return ++counter;
+    }
 
 }

@@ -36,9 +36,43 @@ Accept: application/json
 GET localhost:8080/person/response
 Accept: application/json
 
+
+###
+POST http://0.0.0.0:8080/person/cnt
+
+###
+PUT http://0.0.0.0:8080/person/cool
+Content-Type: application/json
+
+{
+  "name": "Thomas :)"
+}
+
 ###
 
+POST http://0.0.0.0:8080/person/jsontype
+Content-Type: application/json
 
+{
+  "vorname": "Markus",
+  "nachname": "H"
+}
+
+###
+
+POST http://0.0.0.0:8080/person/jsontype
+Content-Type: application/json
+
+[
+  {
+    "vorname": "Gerald",
+    "nachname": "K"
+  },
+  {
+    "vorname": "Riccarda",
+    "nachname": "R"
+  }
+]
 
 
 
