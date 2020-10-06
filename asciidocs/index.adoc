@@ -110,13 +110,16 @@ schränkt die möglichen MIME-Types ein
 
 == 2020-10-02
 
-.Was ist?
+.Was ist? (Erläuterung und Abrenzung)
 - Jakarta EE
 - microprofile
 - Quarkus
 
+.Resourcen
+- http://edufs.edu.htl-leonding.ac.at/~t.stuetz/download/nvs/presentations.2021/04_REST_Uebersicht.pdf[04_REST_Uebersicht.pdf, window="_blank"]
 
 
+==
 
 
 
