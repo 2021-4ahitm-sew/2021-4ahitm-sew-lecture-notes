@@ -292,6 +292,25 @@ ____   ____.__       .__    ___________        _____      .__
                    \/               \/                         /_____/
 ----
 
+== 2020-10-13
 
+=== Testen Allgemein
 
+* Unterschied
+** Unit Test
+** Integration Test
+* TDD
+* Coverage
+** Wie viel macht Sinn
+*** Happy Path & Edge Cases
+*** Was muss man eventuell nicht automatisiert(!) testen
+** mehrere mögliche Programmläufe durch Verzweigungen
 
+=== Quarkus Tests
+
+* Besprechung was im Hintergrund eigentlich alles passiert
+* Syntax (& Packages)
+* Was sollte man damit testen
+* Tests gemeinsam erstellt für:
+** Statuscode
+** Body Content

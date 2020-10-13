@@ -13,13 +13,12 @@ import javax.ws.rs.core.Response;
 public class ExampleResource {
 
     @GET
-    @Produces({
-            MediaType.APPLICATION_XML,
-            MediaType.APPLICATION_JSON,
-            MediaType.TEXT_PLAIN
-    })
-    public Person hello() {
-        return new Person("dorfelmännchen");
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response hello() {
+        var person = new Person();
+        person.setName("Sepp");
+        // for 200, other status codes can be used to fail test
+        return Response.ok(person).build();
     }
 
     @GET
