@@ -203,7 +203,7 @@ schränkt die möglichen MIME-Types ein
 
 |{counter:usage}
 |OJ
-|Parkplatzverwaltung
+|Tanzschule
 |
 
 |{counter:usage}
@@ -253,7 +253,7 @@ schränkt die möglichen MIME-Types ein
 
 |{counter:usage}
 |WJ
-|Tanzschule
+|Parkplatzverwaltung
 |icon:uncheck[]
 
 |===
@@ -314,3 +314,534 @@ ____   ____.__       .__    ___________        _____      .__
 * Tests gemeinsam erstellt für:
 ** Statuscode
 ** Body Content
+
+== Benotung Assignment 1 - Entities mit CRUD - Funktionalität
+
+Noten sind (demnächst) im
+https://edufs.edu.htl-leonding.ac.at/moodle/course/view.php?id=2931[Moodle-Kurs]
+abrufbar.
+
+////
+.Bewertung Assignment 1 - Download am 2020-10-14 11:42
+[%collapsible%open]
+//[%collapsible]
+====
+[cols="1,1,8,2"]
+|===
+|lfd.Nr. |Name |Kommentar |Note
+
+|{counter:katalognr}
+|BM
+a|
+* Thema: Friedhofsverwaltung
+* nicht lauffähig
+* keine Endpoints
+* das heißt nicht cementry, sondern CEMETERY oder GRAVEYARD
+* Dir fehlen sämtliche Projektdateien (mvnw, pom.xml, .gitignore, ...)
+* Felder in einer Klasse sind private (-> Geheimnisprinzip)
++
+[source,java]
+----
+public class Person {
+
+    Integer id;
+    String name = "";
+    LocalDateTime bday;
+    String causeOfDeath = "";
+
+    public Person(Integer id, String name, LocalDateTime bday, String causeOfDeath) {
+        this.id = id;
+        this.name = name;
+        this.bday = bday;
+        this.causeOfDeath = causeOfDeath;
+    }
+    //...
+}
+----
+** besser wäre eine Entität Grab(*`grave`*), die ist wohl am Wichtigsten
+(mit einem Feld `Ansprechperson` (`contact`))
+** Person ist schon ok, aber erst später. BTW: Die Todesursache geht keinen was an
+(ev. auch hier eine Kontaktperson i.S.v. Kunde)
+|ngd(5)
+
+|{counter:katalognr}
+|DJ
+a|
+* Thema: Produktionsbetrieb (Fließband)
+* sehr ausführliche Dokumentation im README.md
+* .gitignore
+** Wenn Du den gesamten `.idea`-Ordner ausschließt, verlierst Du auch jedes mal Deine Datasources etc
+** besser ist es, nur `workspace.xml` auszuschließen
+* PATCH fehlt
+* employee.http hat falsche urls
+
+*Bravo*
+|sgt(1)
+
+|{counter:katalognr}
+|DF
+a|
+* Thema: Centermanager
+* Einen Schönheitspreis gewinnt Dein Algorithmus nicht
+image:dumfarth-string-concat.png[]
+** StringBuilder?
+** sprechende Methodennamen: hello(...) ?
+* Du hättest ev. auch mal einen Objekttyp (Entityklasse) als Parametertyp nehmen können
+* Wenn Du sowieso nur ein JsonObject erwartest, dann kannst Du ruhig JsonObjekt als Datentyp nehmen und nicht immer JsonValue
+* Bei einem REST-Endpoint keine Webseiten zurückgeben (auch wenn es gut aussieht) -> Stichwort: maschinenlesbar
+image:dumfahrt-get.png[]
+** Für Webseiten kannst Du index.html verwenden
+** besser JSON, XML, ...
+* Testdaten -> Bravo
+|sgt(1)
+
+|{counter:katalognr}
+|EQ
+a|
+* Thema: Baustellenkoordinator
+* sehr aufmerksam -> XmlLocalDateAdapter
+
+.Implementierung des XmlAdapters
+[source,java]
+----
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.time.LocalDate;
+
+public class XmlLocalDateAdapter extends XmlAdapter<String, LocalDate> {
+
+
+    @Override
+    public LocalDate unmarshal(String s) {
+        return LocalDate.parse(s);
+    }
+
+    @Override
+    public String marshal(LocalDate localDate) {
+        return localDate.toString();
+    }
+}
+----
+
+.Verwendung des XmlAdapters
+[source,java]
+----
+@XmlRootElement
+public class Construction {
+    // ...
+    @XmlJavaTypeAdapter(value = XmlLocalDateAdapter.class)
+    public void setDeadLine(LocalDate deadLine) {
+        this.deadLine = deadLine;
+    }
+    // ...
+}
+----
+
+see also https://blog.sebastian-daschner.com/entries/jaxrs-convert-params[Converting JAX-RS parameters with ParamConverters, window="_blank"]
+
+* Response beim POST nicht korrekt, aber fast
+----
+POST http://localhost:8080/constructions
+
+HTTP/1.1 201 Created
+Content-Length: 0
+Location: http://localhost:8080/constructions  //<.>
+
+<Response body is empty>
+
+Response code: 201 (Created); Time: 28ms; Content length: 0 bytes
+----
+
+<.> hier sollte die Resource *des Elements* stehen
+
+.ConstructionService
+[source,java]
+----
+@Path("/constructions")
+public class ConstructionService {
+    //...
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(Construction construction, @Context UriInfo uriInfo) {
+        ConstructionRepository
+                .getInstance()
+                .create(construction);  // <.>
+
+        return Response.created(uriInfo
+                .getAbsolutePathBuilder()
+                 //.path(Integer.toString(id))
+                .build())
+                .build();
+    }
+    //...
+}
+----
+
+<.> hier wäre die Rückgabe des Schlüssels vorteilhaft,
+der dann in die Location hinzugefügt werden kann
+(siehe auskommentierten Code).
+
+* Git-Commits ok
+
+|sgt(1)
+
+|{counter:katalognr}
+|EP
+a|
+* Thema: Baumschule
+* gut in README.md dokumentiert
+* Aktueller Quarkus 1.8.1
+* leider keine vollständige CRUD-Funktionalität
+|bef(3)
+
+|{counter:katalognr}
+|FS
+a|
+* Thema: Kochrezepte
+* Die geborene Köchin
+image:feichtinger-putenschnitzel.png[]
+* Für die Parameter gilt das selbe wie bei Felix
+* Für Deine Algorithmen gilt ebenfalls exakt dasselbe wie bei Felix
+* Testdaten -> Bravo (ebenfalls wie bei Felix)
+| sgt(1)
+
+|{counter:katalognr}
+|FJ
+a|
+* Thema: Farmverwaltung
+* Tolle Farmverwaltung
+
+.Product.java
+[source,java]
+----
+package at.htl.fitzinger_farmverwaltung.entity;
+
+public class Product {
+}
+----
+
+.ProductService.java
+[source,java]
+----
+package at.htl.fitzinger_farmverwaltung.boundary;
+
+public class ProductService {
+}
+----
+
+.ProductRepository.java
+[source,java]
+----
+package at.htl.fitzinger_farmverwaltung.entity;
+
+import java.util.ArrayList;
+
+public class ProductRepository {
+    ArrayList<Product> products = new ArrayList<Product>();
+}
+----
+|ngd(5)
+
+|{counter:katalognr}
+|HT
+a|
+* Thema Optiker
+* nur leere Klassen
+
+[source,java]
+----
+package at.htl.hoefler_optiker.entity;
+
+public class Product {
+}
+----
+
+[source,java]
+----
+package at.htl.hoefler_optiker.entity;
+
+import java.util.ArrayList;
+
+public class ProductRepository {
+    ArrayList<Product> productList = new ArrayList<Product>();
+}
+----
+|ngd(5)
+
+|{counter:katalognr}
+|KS
+a|
+* Thema: Facility Management
+* Sehr witzig, wo sind die ganzen maven-Files?
+image:kalinke-project-contents.png[]
++
+image:klausner-leeres-repo.png[]
+
+* Warum gibst Du immer eine Liste zurück?
+
+[source,java]
+----
+public class BuildingRepository {
+
+    private final List<Building> buildings = new ArrayList<>();
+
+    //...
+    public List<Building> addEntity(Building building) {
+        buildings.add(building);
+        return buildings;
+    }
+
+    public List<Building> removeEntity(Building buildingToRemove) {
+        for (Building buildingEntry : buildings) {
+            if (buildingEntry.getType().equals(buildingToRemove.getType())) {
+                buildings.remove(buildingEntry);
+                return buildings;
+            }
+        }
+        return buildings;
+    }
+    //...
+}
+
+
+----
+* Das ist *keine* CRUD-Funktionalität (nur GET)
++
+image:kalinke-crud.png[]
+|gen(4)
+
+|{counter:katalognr}
+|KF
+a|
+* Thema: Zooverwaltung
+* leider leeres Repo abgegeben
+|ngd(5)
+
+|{counter:katalognr}
+|KS2
+a|
+* Thema: Event-Manager
+* völlig leer, nicht mal ein leeres Projekt
+|ngd(5)
+
+|{counter:katalognr}
+|MR
+a|
+* Thema: Reisebüro
+* .gitignore -> siehe Dorfinger
+* `http://localhost:8080/reise` -> siehe Dumfarth
+** Ist cool gelöst, mit den unterschiedlichen MIME-Types
+|sgt(1)
+
+|{counter:katalognr}
+|MA
+a|
+- Thema: Plattenlabel
+- nur 2 leere Klassen (Label und Mitarbeiter)
+- Anmerkung: Klassen sollten englisch benannt werden
+|ngd(5)
+
+|{counter:katalognr}
+|OJ
+a|
+* Thema: Tanzschule
+* Im `jonasoirer`-Repo hast Du ein Verzeichnis `oirer-tanzschule`,
+in dem man dann das Projektverzeichnis `oirer-tanzschule` findet.
+-> *Das ist eindeutig zu tief verschachtelt* +
++
+image:oirer-folder-structure.png[width=300]
+* Beim Repository ist eine Datenelement einzufügen (add),
+nicht die bestehende Collection durch eine andere zu ersetzen (set)
++
+[source,java]
+----
+public class DancingRepository {
+
+    private List<DancingTeacher> repository = new ArrayList<>();
+
+    public DancingRepository() {
+        setRepository();
+    }
+
+    private void setRepository() {
+        repository.add(new DancingTeacher(1, "Jonas", "Oirer"));
+        repository.add(new DancingTeacher(2, "Aleks", "Vidakovic"));
+    }
+
+    public List<DancingTeacher> getRepository() {
+        return repository;
+    }
+
+    @Override
+    public String toString() {
+        return "DancingRepository{" +
+                "repository=" + repository +
+                '}';
+    }
+}
+----
+
+** Man kann nichts hinzufügen
+** Man kann nichts löschen
+** Man kann nichts ändern
+** Man kann kein einzelnes Datenelement abrufen
+* Deine Packages und Klassen sind unstrukturiert
+image:oirer-packages.png[]
+** in das Package entity gehören nur entity-Klassen, keine Endpoints und auch kein Repository
+* openapi / swagger sind *NICHT* installiert
+* dein request.http ist
+** unvollständig und
+** fehlerhaft (PUT ohne body)
+* Was ist da nicht optimal?
++
+[source,java]
+----
+@Path("/dancer")
+public class DancingTeacherService {
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String hello() {
+        return "hello oiropean dancers!";
+    }
+
+    private String coolestTeacher;
+
+    @PUT
+    @Path("coolest")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String getCoolestTeacher(DancingTeacher dancingTeacher) {
+        this.coolestTeacher = dancingTeacher.getFirstName();
+        return String.format("%s is the best", this.coolestTeacher);
+    }
+}
+----
+
+* Routen sollten nie im camel-Case sein, sondern kebab-case
+|gen(4)
+
+|{counter:katalognr}
+|PV
+a|
+* Thema: Skischule
+* sehr umfangreich
+
+|sgt(1)
+
+|{counter:katalognr}
+|RJ
+a|
+* Thema: Fitnessstudio
+* leider nur ein leeres Projekt abgegeben
+|ngd(5)
+
+|{counter:katalognr}
+|SS
+a|
+* Thema: Fakturierung
+* Die Bezeichner (der Klassen) sollten englisch sein
+* Die Requests funktionieren nur im JSON-Format. Nicht wie in der Angabe gefordert auch im XML-Format
+|sgt(1)
+
+|{counter:katalognr}
+|SL
+a|
+* Thema: Kfz-Händler
+* Sehr umfangraich und sauber
+* Ein Datum wäre gut gewesen
+|sgt(1)
+
+|{counter:katalognr}
+|SM
+a|
+* Thema Friseurladen
+* das kann wohl nicht funktionieren!
+** Wo wird der bodey des requests eingelesen
+** keine Groß-/Kleinschreibung bei Routen
+** Du legst bei jedem Request ein eigenes Repository an (?!)
+
+[source,java]
+----
+@Path("/person")
+public class FriseurService {
+    //...
+    @POST
+    @Path("/friseurJSON")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Friseur> getFriseurList(){
+        if (repository.friseure.size()== 0) {
+            repository.createRepository();
+        }
+            return repository.friseure;
+    }
+    //...
+}
+----
+|bef(3)
+
+|{counter:katalognr}
+|TS
+a|
+* Thema Restaurant
+* beim POST muss man sicherstellen, dass bei mehrmaligen ausführen das Element nur einmal hinzugefügt wird
+* es ist aber sehr sauber programmiert
+|sgt(1)
+
+|{counter:katalognr}
+|TK
+a|
+* Thema: Callcenter
+* Dir fehlen sämtliche Projektdateien (mvnw, pom.xml, .gitignore, ...)
+* Die Klassennamen sollten immer in Englisch sein (alle Bezeichner)
+* CRUD nicht vollständig implementiert
+* nicht lauffähig
+|gen(4)
+
+|{counter:katalognr}
+|TI
+a|
+* Thema: Busreisen (inkl Schulbusse)
+* Grundsätzlich sehr sauber
+* Es sollte auch möglich sein, nur einzelne Elemente zu lesen
+* Warum ist beim GET nur XML möglich?
+* Du solltest packages verwenden
+* git commits sind ok
+|gut(2)
+
+|{counter:katalognr}
+|WN
+a|
+* Thema Autovermietung
+* Image-Links in README.md broken
+* git-kommentar "zwischencommit" ist nicht sehr sprechensd
+* Man sollte ein Element nur einmal posten können
+** beim POST muss man sicherstellen, dass bei mehrmaligen ausführen das Element nur einmal hinzugefügt wird
+|sgt(1)
+
+|{counter:katalognr}
+|WJ
+a|
+* Thema Parkplatzverwaltung
+* ad README.md -> Du solltest Dir wirklich ansehen, wie man images in markdown files verlinkt
+* Du Minimalist
+|sgt(1)
+
+|===
+
+.Kriterien
+* Das Projekt muss lauffähig sein (am Besten in ein neues Verzeichnis clonen und ausprobieren)
+* Testdaten sind sehr hilfreich
+
+.Allgemeine Bemerkungen
+* Bezeichner in englisch (ist so üblich)
+* ist eine List wirklich die geeignete Collection für das Repository
+* der erste url einer RESTful-API sollte `/api` sein  (ebenfalls sehr oft üblich)
+
+.Was ist zu tun
+* Fehlerbehandlung -> WebException
+* Wie sind die Responses aufgebaut?
+* Kalenderdatum als Parameter bzw Datenbestandteil
+
+====
+////
+
+
