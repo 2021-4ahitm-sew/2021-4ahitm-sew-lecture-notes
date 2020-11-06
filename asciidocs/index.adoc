@@ -993,4 +993,4 @@ public class GreetingService {
 
 * Warum funktioniert CDI nicht im Constructror?
 * Was kann ich machen, um trotzdem CDI bei der Erstellung von Objekten zu verwenden? -> @PostConstruct
-* Autostart in Quarkus-Apps (@Oberserver)
+* Autostart in Quarkus-Apps (@Observer)
