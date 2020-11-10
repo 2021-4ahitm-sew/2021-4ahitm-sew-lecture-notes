@@ -1,10 +1,16 @@
 package at.htl.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity
 @XmlRootElement
 public class Person {
-    
+
+    private Integer id;
     private String name;
 
     public Person() {
@@ -27,5 +33,15 @@ public class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

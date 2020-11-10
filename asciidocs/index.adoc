@@ -994,3 +994,44 @@ public class GreetingService {
 * Warum funktioniert CDI nicht im Constructror?
 * Was kann ich machen, um trotzdem CDI bei der Erstellung von Objekten zu verwenden? -> @PostConstruct
 * Autostart in Quarkus-Apps (@Observer)
+
+=== JPA mit Quarkus
+
+==== DB Setup
+
+Wir verwenden als Beispiel Postgres (weil open source, sehr verbreitet und flexibel).
+
+.DB herdockern
+[source,bash]
+----
+docker pull postgres
+docker run --restart unless-stopped --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 -v $HOME/databases/postgres:/var/lib/postgresql/data postgres
+----
+
+Anschließend die db anlegen (`create database quarkdb`).
+
+==== Project Config
+
+Zwei Dependencies:
+
+* `io.quarkus:quarkus-hibernate-orm`
+* JDBC drive (z.B. `quarkus-jdbc-postgresql`)
+
+.DB Connection konfigurieren
+[source,bash]
+----
+# datasource configuration
+quarkus.datasource.db-kind = postgresql
+quarkus.datasource.username = postgres
+quarkus.datasource.password = postgres
+quarkus.datasource.jdbc.url = jdbc:postgresql://localhost:5432/quark-db
+
+# drop and create the database at startup (use `update` to only update the schema)
+quarkus.hibernate-orm.database.generation=drop-and-create
+----
+
+==== Entity anlegen & verwenden
+
+* Entities annotieren (`@Entity`, `@Id`,...)
+* `EntityManager` in Service injecten (Achtung: das gehört _eigentlich_ ins Repository!)
+* Service Methode mit `@Transactional` annotieren (ditto: Repository)

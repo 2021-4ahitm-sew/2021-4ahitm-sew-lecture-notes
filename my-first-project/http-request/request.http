@@ -74,5 +74,14 @@ Content-Type: application/json
   }
 ]
 
+###
+
+POST http://0.0.0.0:8080/person
+Content-Type: application/json
+
+{
+"name": "Horst"
+}
+
 
 
