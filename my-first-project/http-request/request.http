@@ -80,8 +80,67 @@ POST http://0.0.0.0:8080/person
 Content-Type: application/json
 
 {
-"name": "Horst"
+ "name": "Horst",
+ "sex": "MALE",
+ "dayOfBirth": "2002-11-12",
+ "hobbies": [
+    {
+      "name": "Soccer",
+      "category": "SPORTS"
+    },
+   {
+     "name": "Chess",
+     "category": "INDOOR"
+   }
+  ]
 }
 
+###
 
+GET http://0.0.0.0:8080/person/1
 
+###
+
+GET http://0.0.0.0:8080/person/-4
+
+###
+
+POST http://0.0.0.0:8080/person
+Content-Type: application/json
+
+{
+  "name": "Susi",
+  "sex": "FEMALE",
+  "dayOfBirth": "2002-12-11",
+  "hobbies": [
+    {
+      "name": "Hockey",
+      "category": "SPORTS"
+    },
+    {
+      "name": "Reading",
+      "category": "RELAXING"
+    }
+  ]
+}
+
+###
+
+POST http://0.0.0.0:8080/person
+Content-Type: application/json
+
+{
+  "name": "Tina",
+  "sex": "FEMALE",
+  "dayOfBirth": "2001-12-11",
+  "hobbies": [
+    {
+      "name": "Drinking",
+      "category": "SOCIAL"
+    }
+  ]
+}
+
+###
+
+GET http://0.0.0.0:8080/person/female
