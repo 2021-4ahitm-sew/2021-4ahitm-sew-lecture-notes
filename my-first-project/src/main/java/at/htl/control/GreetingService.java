@@ -15,7 +15,7 @@ public class GreetingService {
 //            .getLogger(GreetingService.class.getSimpleName());
 
     @Inject
-    private Logger logger;
+    Logger logger;
 
     int counter;
 

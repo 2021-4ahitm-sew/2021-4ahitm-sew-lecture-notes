@@ -989,8 +989,183 @@ public class GreetingService {
 <.> Die Verwendung bleibt gleich
 
 
-=== Offene Punkte
+=== [.line-through]#Offene# Punkte
 
-* Warum funktioniert CDI nicht im Constructror?
+* Warum funktioniert CDI nicht im Constructor?
 * Was kann ich machen, um trotzdem CDI bei der Erstellung von Objekten zu verwenden? -> @PostConstruct
 * Autostart in Quarkus-Apps (@Observer)
+
+
+== 2020-11-13
+
+=== Testen
+
+image:testing.png[]
+
+.V-Modell
+image:v-modell.png[]
+
+=== restAssured + assertJ
+
+
+* Vocabulary
+** specification ... techn. Beschreibung
+** validieren ... auf Gültigkeit überprüfen
+** verifizieren ... auf Korrektheit überprüfen
+** route ... der Pfad in der URI nach dem Host und dem Port
+
+image:request-reponse-structure.png[]
+
+https://www.toolsqa.com/rest-assured/post-request-using-rest-assured/
+
+==== GET-Request
+
+* Es wird automatisch localhost:8080 verwendet
+* Alternative: .when().get("http://localhost:8080/person")
+
+[source,java]
+----
+    @Test
+    public void testPersonEndpoint() {
+        var person =
+            // arrange
+            given()
+            // act
+            .when().get("/person")
+            // assert -> Rückgabe überprüfen
+            .then()
+                .statusCode(200)  // wir validieren
+                .extract()
+                   .body()
+                   .as(Person.class);
+        assertThat(person).isNotNull();
+        assertThat(person.getName())
+                .isNotNull()
+                .isNotEmpty()
+                .isEqualTo("Sepp");
+    }
+----
+
+==== POST-Request
+
+[source,java]
+----
+    @Test
+    public void testPostPersonEndpoint() {
+
+                given()
+                // arrange
+                   .contentType(ContentType.JSON)
+                   .body(  // Text Blocks // <.>
+                       """
+                        {
+                          "vorname":"Markus",
+                          "nachname":"H"
+                        }
+                        """)
+                   // act
+                   .when().post("/person/jsontype")
+                   .then()
+                   .statusCode(200);  // wir validieren
+    }
+----
+
+<.> Verwendung von Text-Blocks ab Java 15 (-> pom.xml) +
+bis Java 14
+
+[source,java]
+----
+.body("{\"vorname\": \"Markus\", \"nachname\": \"H\"}")
+----
+
+
+=== Startup-Methode in Quarkus
+
+* wird nach dem Start der Applikation ausgeführt.
+
+[source,java]
+----
+@ApplicationScoped
+public class InitBean {
+
+    // vergleichbar mit main()-MEthode
+    void onStart(@Observes StartupEvent event) {
+        LOG.info("The application is starting ...");
+    }
+
+}
+----
+
+=== PostConstruct-Methode
+
+* Man kann injizierte Resourcen (Objekte) im Konstruktor nicht verwenden,
+da sie erst nach der Ausführung des Konstruktors injiziert werden.
+
+[source,java]
+----
+@ApplicationScoped
+public class InitBean {
+
+    @Inject
+    GreetingService greetingService;
+
+    public InitBean() {
+        // hier kann man greetingService noch nicht verwenden
+    }
+
+    @PostConstruct
+    private void init() {  // <.>
+        greetingService.greeting("Jonas 1");
+    }
+}
+
+----
+
+<.> Diese Methode wird ausgeführt:
+
+* nachdem das Objekt fertig gebaut ist (der Konstruktor wurde bereits ausgeführt)
+* nachdem die Resourcen injiziert wurden
+-> daher kann man diese Resourcen auch hier verwenden
+
+
+=== Verwendung einer Datenbank
+
+* Persistierung mit JPA
+
+==== Vorgangsweise beim Einrichten
+
+zB Die Objekte einer Klasse Person sollen in einer DB persisitiert werden
+
+* Bibliotheken zur pom.xml hinzufügen
+** zB Hibernate / JPA
+** JDBC-Treiber der Datenbank (postgres-jdbc-driver)
+* Einrichten der zugangsdaten in `application.properties`
+** jdbc-url
+** username
+** password
+* Datenbank einrichten und starten
+** zB mit Docker
+* Entity-Klasse Person vorbereiten
+** @Entity als Klassen-Annotation
+** `Long id` hinzufügen mit Annotation @Id
+** Ev. einer Id-Generator annotieren
+*** 3 Strategien (AUTO ist keine eigene Strategie)
+*** TABLE
+*** IDENTITY
+*** SEQUENCE
+*** AUTO
+* Injizieren Eines EntitiyManagers
+* Bei schreibenden Operationen Annotation `@Transactional` verwenden.
+
+Voíla ... jetzt kann man persistieren
+
+
+
+
+
+
+
+
+
+
+
