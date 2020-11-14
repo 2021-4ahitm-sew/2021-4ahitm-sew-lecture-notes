@@ -1,7 +1,7 @@
 package at.htl.control;
 
+import at.htl.entity.Gender;
 import at.htl.entity.Person;
-import at.htl.entity.Sex;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,9 +24,9 @@ public class PersonRepository {
         return q.getResultList().stream().findFirst().orElse(null);
     }
 
-    public List<Person> getBySex(Sex sex){
-        var q = this.em.createNamedQuery("getBySex", Person.class);
-        q.setParameter("sex", sex);
+    public List<Person> getByGender(Gender gender){
+        var q = this.em.createNamedQuery("getByGender", Person.class);
+        q.setParameter("gender", gender);
         return q.getResultList();
     }
 }

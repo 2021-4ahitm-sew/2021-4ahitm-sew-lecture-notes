@@ -81,7 +81,7 @@ Content-Type: application/json
 
 {
  "name": "Horst",
- "sex": "MALE",
+ "gender": "MALE",
  "dayOfBirth": "2002-11-12",
  "hobbies": [
     {
@@ -110,7 +110,7 @@ Content-Type: application/json
 
 {
   "name": "Susi",
-  "sex": "FEMALE",
+  "gender": "FEMALE",
   "dayOfBirth": "2002-12-11",
   "hobbies": [
     {
@@ -131,7 +131,7 @@ Content-Type: application/json
 
 {
   "name": "Tina",
-  "sex": "FEMALE",
+  "gender": "FEMALE",
   "dayOfBirth": "2001-12-11",
   "hobbies": [
     {

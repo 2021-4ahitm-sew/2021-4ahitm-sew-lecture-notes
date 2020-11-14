@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @XmlRootElement
-@NamedQuery(name="getBySex", query="select p from Person p where p.sex = :sex")
+@NamedQuery(name="getByGender", query="select p from Person p where p.gender = :gender")
 public class Person {
 
     @Id
@@ -16,7 +16,7 @@ public class Person {
     private Long id;
     private String name;
     @Enumerated(EnumType.ORDINAL)
-    private Sex sex;
+    private Gender gender;
     private LocalDate dayOfBirth;
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // PERSIST would suffice for inserts
     private List<Hobby> hobbies = new ArrayList<>(); // good practice to initialize - will be populated lazily
@@ -51,12 +51,12 @@ public class Person {
         this.id = id;
     }
 
-    public Sex getSex() {
-        return sex;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public LocalDate getDayOfBirth() {

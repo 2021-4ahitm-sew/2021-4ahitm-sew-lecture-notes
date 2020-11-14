@@ -1,9 +1,9 @@
 package at.htl.control;
 
+import at.htl.entity.Gender;
 import at.htl.entity.Hobby;
 import at.htl.entity.HobbyCategory;
 import at.htl.entity.Person;
-import at.htl.entity.Sex;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
@@ -65,22 +65,22 @@ class PersonRepositoryTest {
 
     @Transactional
     @Test
-    void retrievePeopleBySex(){
+    void retrievePeopleByGender(){
         var hobby = new Hobby();
         hobby.setName("Fischen");
         hobby.setCategory(HobbyCategory.OUTDOOR);
         Person hansi = new Person("Hansi");
         hansi.setHobbies(Collections.singletonList(hobby));
         hansi.setDayOfBirth(LocalDate.of(2010, 10, 10));
-        hansi.setSex(Sex.MALE);
+        hansi.setGender(Gender.MALE);
         Person susi = new Person("Susi");
         susi.setHobbies(Collections.singletonList(hobby));
         susi.setDayOfBirth(LocalDate.of(2011, 10, 10));
-        susi.setSex(Sex.FEMALE);
+        susi.setGender(Gender.FEMALE);
         repo.add(hansi);
         repo.add(susi);
 
-        var people = repo.getBySex(Sex.FEMALE);
+        var people = repo.getByGender(Gender.FEMALE);
         assertThat(people)
                 .isNotNull()
                 .isNotEmpty()

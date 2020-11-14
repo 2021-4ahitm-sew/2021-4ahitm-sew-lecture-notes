@@ -2,7 +2,7 @@ package at.htl.control;
 
 import at.htl.entity.Hobby;
 import at.htl.entity.Person;
-import at.htl.entity.Sex;
+import at.htl.entity.Gender;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -22,7 +22,7 @@ public class PersonService {
     @Transactional
     public Person addPerson(Person personDTO){
         var newPerson = new Person(personDTO.getName()); // gibt es in Java mittlerweile so etwas wie einen Object Initializer?
-        newPerson.setSex(personDTO.getSex());
+        newPerson.setGender(personDTO.getGender());
         newPerson.setDayOfBirth(personDTO.getDayOfBirth());
 
         var hobbies = new ArrayList<Hobby>();
@@ -49,6 +49,6 @@ public class PersonService {
 
     @Transactional
     public List<Person> getAllFemales(){
-        return this.repository.getBySex(Sex.FEMALE);
+        return this.repository.getByGender(Gender.FEMALE);
     }
 }
