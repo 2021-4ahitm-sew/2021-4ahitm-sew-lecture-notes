@@ -39,4 +39,12 @@ public class Hobby {
     public void setHobbyCategory(HobbyCategory hobbyCategory) {
         this.hobbyCategory = hobbyCategory;
     }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 }

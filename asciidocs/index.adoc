@@ -1159,7 +1159,71 @@ zB Die Objekte einer Klasse Person sollen in einer DB persisitiert werden
 
 Voíla ... jetzt kann man persistieren
 
+== 2020-11-17 - Forts. JPA mit Quarkus
 
+=== DB Setup
+
+Wir verwenden als Beispiel Postgres (weil open source, sehr verbreitet und flexibel).
+
+.DB herdockern
+[source,bash]
+----
+docker pull postgres
+docker run --name postgres --rm -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 -v $HOME/databases/postgres:/var/lib/postgresql/data postgres
+----
+
+Anschließend die db anlegen (`create database quarkdb`).
+
+=== Project Config
+
+Zwei Dependencies:
+
+* `io.quarkus:quarkus-hibernate-orm`
+* JDBC driver (z.B. `quarkus-jdbc-postgresql`)
+
+Hinzufügen via 'add with maven' Command von der https://code.quarkus.io website.
+
+.DB Connection konfigurieren
+[source,bash]
+----
+# datasource configuration
+quarkus.datasource.db-kind = postgresql
+quarkus.datasource.username = postgres
+quarkus.datasource.password = postgres
+quarkus.datasource.jdbc.url = jdbc:postgresql://localhost:5432/quark-db
+
+# drop and create the database at startup (use `update` to only update the schema)
+quarkus.hibernate-orm.database.generation=drop-and-create
+----
+
+=== Entity anlegen & verwenden
+
+* Entities annotieren (`@Entity`, `@Id`,...) (s.o.)
+** Serialisierungsoptionen für `enum`
+** Relationen (1:1, 1:n, m:n) entsprechend abbilden
+*** Angabe des Foreign Key
+*** Cascade Optionen
+* Repository in Service injecten
+* `EntityManager` in Repository injecten
+* Service Methode mit `@Transactional` annotieren
+** Im Service und nicht im Repo, weil wir ggf. mehrere Operationen zusammenfassen!
+*** LUW!
+
+=== Queries
+
+* Abfragen werden mit *JPQL* erstellt
+** Ähnlich SQL aber mit Abwandlungen/Erweiterungen wie:
+*** Joins über Referenzen "implizit" möglich
+*** Objekte (new) können angelegt werden
+*** Abfragen auf Class- und nicht auf Tablename
+*** ...
+** Placeholder (prepared statement) zwecks SQL Injection Vermeidung
+* Zwei Optionen:
+** (Typed)Queries direkt über den `EntityManager` erstellen
+** NamedQueries in der Entity class definieren
+* Laden verbundener Entitäten:
+** Lazy Loading
+** Eager Loading
 
 
 

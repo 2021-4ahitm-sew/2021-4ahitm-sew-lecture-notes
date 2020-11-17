@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @XmlRootElement
+@NamedQuery(name = "Person.getByGender", query = "select p from Person p where p.gender = :gender")
 public class Person {
 
     @Id
@@ -18,7 +19,7 @@ public class Person {
     @Enumerated(EnumType.ORDINAL)
     private Gender gender;
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Hobby> hobbies = new ArrayList<>();
 
     public LocalDate getDayOfBirth() {
@@ -35,6 +36,14 @@ public class Person {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public List<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(List<Hobby> hobbies) {
+        this.hobbies = hobbies;
     }
 
     public Person() {
@@ -66,4 +75,5 @@ public class Person {
     public void setId(Long id) {
         this.id = id;
     }
+
 }
