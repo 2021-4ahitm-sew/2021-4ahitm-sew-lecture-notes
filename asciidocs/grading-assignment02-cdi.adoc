@@ -1,0 +1,1884 @@
+= Benotung Assignment 2 - CDI - Datenmodelle
+Markus Haslinger
+1.0.0, 2020-12-05: reviewed and complemented by Thomas W. Stütz
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+//icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+//icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+//icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+// print the toc here (not at the default position)
+//toc::[]
+
+:katalognr: 0
+
+.Bewertung Assignment 2 - Download am 2020-12-04 12:02
+[%collapsible%open]
+//[%collapsible]
+====
+[cols="1,1,8,2"]
+|===
+|lfd.Nr. |Name |Kommentar |Note
+
+|{counter:katalognr}
+|BM
+a|
+* Thema: Friedhofsverwaltung
+* Artifakt im Diagramm
+* Syntax für Fields ist <fieldName>: <dataType>
+* Sichtbarkeit fehlt
+* eine m:n Beziehung zwischen Employee & Grave wäre eventuell praktikabler gewesen, aber ok
+* nicht ins Readme eingebunden
+
+* Was ist das Ziel Deines Klassenmodells?
+
+[plantuml,01BM,png]
+----
+@startuml
+
+class Grave{
+    int Id
+    Contact contact
+    Employee emp
+}
+
+class Contact {
+    Long id
+    String phoneNr
+    String name
+    String relation
+}
+
+class Employee {
+    Long id
+    String name
+    String role
+}
+
+Contact "1" -up-> "n" Grave : > owns
+Employee "1" -left-> "n" Grave : > maintains
+
+
+@enduml
+----
+
+|gen(4)
+
+|{counter:katalognr}
+|DJ
+a|
+
+[plantuml,02djcld,png]
+----
+@startuml
+class Department
+class Employee
+class Machine
+class Product
+
+Department "1" ---> "*" Employee
+Department "1" ---> "*" Machine
+Machine "1" ---> "1" Product
+
+class Department {
+    -id
+    -chief
+    -employees
+    -machines
+}
+
+class Employee {
+    -id
+    -name
+    -age
+    -salary
+}
+
+class Machine {
+    -id
+    -isBroken
+    -produceableProduct
+}
+
+class Product {
+    -id
+    -name
+    -duration
+}
+@enduml
+----
+
+* Thema: Produktionsbetrieb (Fließband)
+* Datentypen fehlen
+* Kann eine Maschine wirklich nur 1 Produkt herstellen?
+** Normalerweise geht mit ein bisschen Rüstzeit auch mehr, das wäre ja auch sehr ineffizient, oder?
+* sonst plausibel
+* Ev. könnte man mehr herausarbeiten, welchen Zweck das Datenmodell erfüllt
+** Eigentlich hätte ich gerne ein Datenmodell:
+*** Versciedene Produkte werden von mehreren Maschinen, jeweils in einer gewissen Reihenfolge gefertigt
+*** Bei jeder Maschine dauert die Bearbeitung eine gewisse Anzahl von Minuten
+*** Auswertung (Habe drei Produkte und eine gewisse Menge, die ich davon jeweils herstellen möchte):
+**** Wie hoch ist die Nutzung der einzelnen Maschinen?
+**** Wie lange dauert die Herstellung eines Produkts?
+**** Wie lange dauert die HErstellung aller Produkte (die ja gewisse Maschinen gemeinsam benutzen)
+
+
+.Use-Case Diagram
+[plantuml,02djucd,png]
+----
+@startuml
+left to right direction
+actor User as u
+
+package Factory {
+  usecase "add department" as UC1
+  usecase "update department" as UC2
+  usecase "find specific department" as UC3
+  usecase "find all departments" as UC4
+  usecase "delete specific department" as UC5
+  usecase "delete all department" as UC6
+}
+
+u --> UC1
+u --> UC2
+
+u --> UC3
+u --> UC4
+
+u --> UC5
+u --> UC6
+@enduml
+----
+
+* update/delete department kann man zu einem Use-Case zusammenfassen -> manage department
+* Wennich mir Deine Use-Cases ansehe, ist Dein System ziemlich sinnlos
+
+|gut(2)
+
+|{counter:katalognr}
+|DF
+a|
+.Class Diagram
+[plantuml,03dfcld,png]
+----
+@startuml
+
+class Person {
+-String firstName
+-String lastName
++String getFirstName()
++void setFirstName()
+}
+Person "1"<-->"1" Store :owns
+Store "*"<-->"0..*" Event :is involved
+class Store{
+-int storeId
++int getStoreId()
++void setStoreId()
+-String storeName
++String getStoreName()
++void setStoreName()
+-int rent
++int getRent()
++void setRent()
+-Person shopkeeper
++Person getShopKeeper()
++void setShopKeeper()
+-Category category
++Category getCategory()
++void setCategory()
++ String toString()
+}
+
+class Event{
+-Date date
++Date getDate()
++void setDate()
+-String name
++String getName()
++void setName()
+-List<Store> involvedStores
++Store getInvolvedStore()
++void setInvolveldStore()
++ String toString()
+
+}
+
+enum Category {
+    CLOTHING
+    BOOKS
+    ELECTRONICS
+    GASTRONOMY
+    ENTERTAINMENT
+}
+@enduml
+----
+
+* Thema: Centermanager
+* Syntax für Fields ist <fieldName>: <dataType>
+* Du hast eine m:n Beziehung zwischen deinen Events und den Stores => Assoc. Table
+* Es gibt keine Beziehung mit zwei Pfeilenden!!!!!!
+** Zwei Beziehungen mit jeweils einem Pfeilende
+* Der Sinn Deines CLDs ist mir noch verborgen
+** Wäre schön zu wissen, wieviele/welche Shops das Center zu vermieten hat
+** Welche Shops sind für wie lange vermietet
+** Daraus leiten sich dann auch die Use-Cases ab:
+*** Vermiete Shop
+*** Liste alle vermieteten Shops auf
+*** Liste Umsatz der einzelnen JAhre auf
+*** Welche Auslastung hat Dein Shop-Center?
+*** ...
+
+.Use-Case Diagram
+[plantuml,03dfucd,png]
+----
+@startuml
+left to right direction
+User --> (Get all stores)
+User --> (Find a Store with name or Id)
+User --> (Add a Store)
+User --> (Delete a Store)
+User --> (Add Event)
+User --> (Find a Event)
+User --> (Delete a Event)
+@enduml
+----
+
+* Es fehlt der Systemrahmen -> siehe Buch
+* Das sind Trivial-Use-Cases -> siehe Dorfinger
+
+|gut(2)
+
+|{counter:katalognr}
+|EQ
+a|
+.Class Diagram
+[plantuml,04eqcld,png]
+----
+@startuml
+class Construction {
+    - private Long id;
+    - private String location;
+    - private String description;
+    - private String constructionManagerName;
+    - private LocalDate deadLine;
+}
+
+class ConstructionWorker {
+    - private Long id;
+    - private String firstName;
+    - private String lastName;
+    - private int socialSecurityNumber;
+    - private String place;
+    - private String phoneNumber;
+    - private Long constructionId;
+}
+
+class ConstructionVehicle {
+    - private Long id;
+    - private int modelNumber;
+    - private Long constructionId;
+    - private LocalDate constructionDate;
+}
+
+ConstructionVehicle "*" --left-- "1" Construction : uses
+ConstructionWorker "1" --right-- "1" Construction : works at
+
+@enduml
+----
+
+* Thema: Baustellenkoordinator
+* Syntax für Fields ist <fieldName>: <dataType>
+** Und: Sichtbarkeit reicht als Symbol, brauchst du nicht noch extra hinschreiben
+* Wenn dein `ConstructionWorker` schon eine SSN hat, wieso brauchst du dann noch eine ID zusätzlich?
+* Was soll `place` im Worker abbilden?
+* Kann auf einer Baustelle wirklich nur 1 Arbeiter arbeiten?
+** Und ein Arbeiter ist auch nur auf 1 Baustelle und wird dann gleich wieder entlassen?
+* Dasselbe gilt bei den Maschinen: die werden üblicherweise auf mehreren Baustellen eingesetzt und zB hin und hergefahren je nach Bedarf
+* Du arbeitest grundsätzlich sehr sauber
+* Bei Sinn Deines CLDs hapert es noch ein bisschen.
+Ev. könntest Du folgende Fragen beantworten:
+** Welcher Arbeiter arbeitet an einer Baustelle für wie lange?
+** Wieviele Arbeiter arbeiten momentan auf einer Baustelle?
+** (Dafür kannst Du die Vehicles weglassen)
+
+.Use-Case Diagram
+[plantuml,04equcd,png]
+----
+@startuml
+Actor user
+
+rectangle Baustellenkoordinator {
+    (ConstructionVehicle)
+    (ConstructionWorker)
+    (Construction)
+}
+
+user -up--  ConstructionVehicle: "wants to know location of"
+user -up-- ConstructionWorker: "wants to know where to work"
+user -up-- Construction: "wants to know the deadline of the current construction"
+
+@enduml
+----
+
+
+|bef(3)
+
+|{counter:katalognr}
+|EP
+a|
+
+.Class Diagram
+[plantuml,05epcld,png]
+----
+@startuml
+class Customer{
+    - String firstName
+    - String lastName
+    - int customerId
+    - List<Integer> orderedPlantsById
+}
+
+class Transaction{
+    - int transactionId
+    - int customerId
+    - int plantId
+    - LocalDate dateOfTransaction
+}
+
+class Plant{
+    - String plantName
+    - int plantId
+    - PlantType plantType
+}
+
+class CropArea{
+    - int cropAreaId
+    - HashMap<Integer, Plant> cropSubdivision
+}
+
+Customer "1" -- "*" Transaction : buys
+Plant "1" -right- "*" Transaction : is ordered
+CropArea "1" <-- "*" Plant : planted
+
+@enduml
+----
+* Thema: Baumschule
+* Syntax für Fields ist <fieldName>: <dataType>
+* `PlantType` (wahrs. `enum`?) fehlt im Diagramm
+* `orderedPlantsById` im `Customer` wirst du eher als computed property haben (die Transaktionen hängen als Liste dran und aus denen können wir uns die Pflanzen IDs holen)
+* Deine Transaction ist eher eine Invoice
+** es stellt sich die Frage, ob man für jede Pflanze(jedes Stück der Pflanze),
+wirklich eine eigennRechnung braucht oder ob man nicht
+mehrere Exemplare einer Pflanze und auch verschieden Pflanzen auf einer Rechnung kaufen kann
+** Als Besonderheit bei einer Baumschule kännte man den Preis nach dem Alter einer Pflanze berechnen
+(je älter ein Baum ist, umso teurer)
+
+
+
+.Use-Case Diagram
+[plantuml,05epucd,png]
+----
+@startuml
+rectangle baumschule {
+      (orders crop / plants)
+}
+
+actor customer
+
+customer --right-> (orders crop / plants)
+@enduml
+----
+
+* Das ist wohl eine Sparversion
+* Außerdem ist die Notation falsch (keine Pfeile bei den Assoziationen)
+
+
+|gut(2)
+
+|{counter:katalognr}
+|FS
+a|
+* Thema: Kochrezepte
+* Als Mengeneinheit wäre denke ich ein enum gut, damit nicht plötzlich jemand ein 'Scheffel' o.ä. einträgt
+* Wie bereits besprochen fände ich folgendes Konstrukt für Zutaten schöner:
+
+[plantuml]
+----
+@startuml
+hide methods
+
+enum MeasureUnit {
+   GRAM
+   MILLILITER
+   TABLESPOON
+   ...
+}
+class Dish {
+   ...
+}
+class Ingredient {
+   ...
+}
+class DishIngredient{
+   amount: Int,
+   unit: MeasureUnit
+}
+
+
+Dish "1" -- "*" DishIngredient
+DishIngredient "*" -- "1" Ingredient
+DishIngredient "*" -- "1" MeasureUnit
+@enduml
+----
+
+
+.Original CLD
+[plantuml]
+----
+@startuml
+class Dish
+{
+-id: Integer
+-name: String
+-description: String
+-minTime: int
+-procedure: String
+-tag: Tag
+-difficulty: Difficulty
+-rating: List<Rate>
+}
+
+class Ingredient
+{
+-id: Integer
+-name: String
+-amount: int
+-unit: String
+-dish: Dish
+}
+
+class Member
+{
+-id: Integer
+-name: String
+-email: String
+}
+
+class Rate
+{
+-id: Integer
+-stars: int
+-ratingText: String
+-evaluator: Member
+}
+
+Dish "1" *--> "1" Tag
+Dish "1" *--> "1" Difficulty
+
+Ingredient "*" *--> "1" Dish
+
+Member "1" -- "*" Rate
+Rate "*" <--* "1" Dish
+
+enum Tag {
+  SUPPE
+  SALAT
+  HAUPTSPEISE
+  NACHTISCH
+  ANDERS
+}
+
+enum Difficulty {
+  EASY
+  NORMAL
+  CHALLENGING
+}
+
+@enduml
+----
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor Member as g
+
+package RecipeDB{
+  usecase "Create recipes" as UC1
+  usecase "Look for recipes" as UC2
+  usecase "Write a review" as UC3
+}
+g --> UC1
+g --> UC2
+g --> UC3
+@enduml
+----
+
+
+| gut(2)
+
+|{counter:katalognr}
+|FJ
+a|
+* Thema: Farmverwaltung
+
+[plantuml]
+----
+@startuml
+    class Employee{
+        -firstName: String
+        -lastName: String
+        -dob: LocalDate
+    }
+    class Rental{
+        -startDate: LocalDate
+        -endDate: LocalDate
+        -tool: Tool
+        -employee: Employee
+    }
+    class Tool{
+        -toolName: String
+        -toolType: String
+        -ageRestricted: boolean
+    }
+
+    Employee "*" <- "1" Rental : rents >
+    Rental "1" -> "*" Tool : < is rented
+@enduml
+----
+
+
+* hat immer noch nix mit einer Farm zu tun, probier mal https://lmgtfy.app/?q=farm[das]
+* Syntax Fehler im Diagramm, wird nicht auf Anhieb gerendert sondern musste erst gefixt werden
+* Kardinalitäten sind falsch herum angegeben
+** ein Verleih wird von mehreren Mitarbeitern durchgeführt
+** jeder Mitarbeiter wird nachdem er etwas verliehen hat entlassen
+* überlegenswert: können bei einem Verleihvorgang nicht gleich mehrere Tools entliehen werden?
+
+* Deine .puml-Files sind nicht korrekt (keine "----" am Beginn und am Ende des Files)
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor "Employee" as emp
+rectangle Farmverwaltung{
+    usecase "tool management" as uc1
+    usecase "tool usage" as uc2
+    usecase "add employee" as uc3
+}
+emp --> uc1
+emp --> uc2
+emp --> uc3
+@enduml
+----
+
+* ?????  copy-paste ????
+
+|ngd(5)
+
+|{counter:katalognr}
+|HT
+a|
+
+[plantuml]
+----
+@startuml
+class Customer {
+ - String: firstName
+ - String: lastName
+ - long: customerId
+ - Glasses: glasses
+}
+
+class Frame {
+ - long: id
+ - String: brand
+ - String: color
+}
+
+class Glasses {
+ - int: id
+ - double: dioptersLeft
+ - double: dioptersRight
+ - Frame: frame
+}
+
+Glasses "1" --- "1" Frame: is part of <
+Glasses "1" --- "1" Customer: owns <
+@enduml
+----
+
+* Thema Optiker
+* Syntax für Fields ist <fieldName>: <dataType>
+* Als Brillenträger kann ich dir versichern, dass sich linkes und rechtes Brillenglas nicht nur an der Stärke unterscheiden (sondern z.B. auch beim Einschliff des Blickpunkts)
+* Kunden haben übrigens auch mehrere Brillen (z.B. Sonnebrillen)
+* mein Vorschlag:
+
+[plantuml]
+----
+@startuml
+hide methods
+hide fields
+
+class Customer
+class Glasses
+class Frame
+class Lens
+
+Customer "1" -- "*" Glasses
+Glasses "1" -- "1" Frame
+Glasses "1" -- "2" Lens
+@enduml
+----
+
+* zweiter Vorschlag:
+** es ist nicht optimal für Brillengläser und Rahmen eigene Klassen zu verwenden
+
+[plantuml]
+----
+@startuml
+left to right direction
+
+actor optiker as o
+
+package "optiker verwaltung" {
+    usecase "Kunden anlegen" as uc1
+    usecase "Lagerbestand verwalten" as uc2
+    usecase "Bestellungen absetzen" as uc3
+}
+
+
+o --> uc1
+o --> uc2
+o --> uc3
+@enduml
+----
+
+* Mit Deinem Datemodell sind diese Use-Cases nicht möglich
+
+|gen(4)
+
+|{counter:katalognr}
+|KS
+a|
+[plantuml]
+----
+@startuml
+Building "*" --- "1" Customer : is renting <
+Manager "1" --- "*" Customer : is providing >
+Manager "1" --- "*" Building : is managing >
+
+class Building {
+    +int: id
+    -String: type
+    -int: surface
+    -long: rental
+}
+
+class Customer {
+    +Long: cusID
+    -String: name
+    -String: adress
+    -int: plz
+    #Manager: manager
+}
+
+class Manager {
+    +Long: managerID
+    -String: name
+    -int: buildingsToManage
+    #Building: building
+}
+@enduml
+----
+
+* Thema: Facility Management
+* Syntax für Fields ist <fieldName>: <dataType>
+* Mehrere Kunden in einem Gebäude werden nicht unterstützt (z.B. Wohnhaus mit mehreren Parteien)
+
+.Vorschlag
+[plantuml]
+----
+@startuml
+Employee "*" --- "*" Building: is cleaning >
+(Employee, Building) .. Shift
+@enduml
+----
+
+[plantuml]
+----
+@startuml
+left to right direction
+
+actor Customer as c
+actor Manager as m
+
+package Building {
+    usecase "using it" as UC1
+    usecase "renting it" as UC2
+    usecase "check for damage" as UC3
+    usecase "providing it" as UC4
+}
+
+c --> UC1
+c --> UC2
+m --> UC3
+m --> UC4
+@enduml
+----
+
+* Was ist it?
+
+|gen(4)
+
+|{counter:katalognr}
+|KF
+a|
+* Thema: Zooverwaltung
+* Kein Diagramm abgegeben
+
+.nur src-code
+image:klausner-erd.png[]
+
+* kein Use-Case-Diagram abgegeben
+
+|ngd(5)
+
+|{counter:katalognr}
+|KS2
+a|
+* Thema: Event-Manager
+
+[plantuml]
+----
+@startuml
+
+class Event{
+  - String name;
+  - String date;
+  - long id;
+}
+
+class Host{
+  - String name;
+  - long ssn;
+  - long id;
+}
+
+Host "1" -- "*" Event : hosts
+@enduml
+----
+
+* Syntax für Fields ist <fieldName>: <dataType>
+* Properties für die Beziehung fehlen
+* nur zwei Entities ?!
+* Der Zweck Deines microprojects bleibt mur trotz Deiner README.md verborgen.
+** Welche hosts und welche events?
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor User as g
+
+package Eventmanager {
+  usecase "creates new Host" as UC1
+  usecase "deletes Host" as UC2
+  usecase "creates new Event" as UC3
+  usecase "deletes Event" as UC4
+  usecase "searches for Host" as UC5
+  usecase "searches for Event" as UC6
+}
+g --> UC1
+g --> UC2
+
+g --> UC3
+g --> UC4
+
+g --> UC5
+g --> UC6
+@enduml
+----
+
+* Trivial-UCs -> siehe 02DJ
+
+|gnd(4)
+
+|{counter:katalognr}
+|MR
+a|
+* Thema: Reisebüro
+
+[plantuml]
+----
+@startuml
+class Kunde {
+  id : int
+  firstName : String
+  lastName : String
+  eMail : String
+}
+
+class Buchung {
+    id : int
+    reise : Reise;
+    kunde : Kunde ;
+    reiseStart : LocalDate;
+    reiseEnde : LocalDate;
+}
+
+class Reise {
+  id : int
+  preis : double
+  reiseZiel : String
+}
+
+Buchung "*" --> "1" Reise: ist gebucht
+Buchung "*" --> "1" Kunde: bucht
+@enduml
+----
+
+* Für die IDs bitte als Type `Long` nehmen (für JPA brauchen wir immer die Wrapper und nicht die primitiven Typen)
+* Sichtbarkeit fehlt
+* Pfeile bei der Beschreibung der Ass. fehlen
+* ev. wäre der monetäre Aspekt auch noch ganz nett
+** Was kostet eine Reise*
+** Wurde Sie schon bezahlt -> Status der Buchung (GEBUCHT,BEZAHLT,STORNIERT,DURCHGEFÜHRT, ...)
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor Kunde
+
+rectangle {
+    Kunde -- (Buchung durchführen)
+    Kunde -- (Buchung ändern)
+    Kunde -- (Buchung löschen)
+}
+@enduml
+----
+
+* Trivial-UCs -> siehe 02DJ
+
+|gut(2)
+
+|{counter:katalognr}
+|MA
+a|
+* Thema: Plattenlabel
+* Kein Diagramm abgegeben
+* gar nichts abgegeben
+
+|ngd(5)
+
+|{counter:katalognr}
+|OJ
+a|
+* Thema: Tanzschule
+
+[plantuml]
+----
+@startuml
+class DancingTeacher {
+    int teacherId
+    String firstName
+    String lastName
+}
+
+class DancingFigure {
+    int figureId
+    String figureName
+    String dance
+}
+
+class DancingStudent {
+    int studentId
+    String firstName
+    String lastName
+}
+
+class DancingCourse {
+    int courseId
+    String courseName
+    Level level
+    LocalDate date
+    LocalTime time
+    DancingTeacher dancingTeacher
+    List<DancingFigure> couseProgram
+    List<DancingStudent> participants
+
+}
+
+enum Level {
+    Basic
+    Bronze
+    Silber
+    Gold
+    Goldstar
+    Supergoldstar
+}
+
+DancingCourse "1..*" --> "1" Level : is on
+DancingTeacher "1" --> "*" DancingCourse : gives
+DancingStudent "*" - "*" DancingCourse : attends
+(DancingStudent, DancingCourse) .. Attendence
+DancingCourse "1..*" - "*" DancingFigure : is tought in
+(DancingFigure, DancingCourse) .. CouseProgram
+
+@enduml
+----
+
+* Syntax für Fields ist <fieldName>: <dataType>
+* Felder der Assoc. Tables auch angeben
+* sehr bemüht!
+* würde "DancingFigure" allgemeiner bezeichnen. So kann man auch was anderes als Figuren lernen (zB Tänze)
+* eigentlich sehr gut überlegt - knapp am Einser vorbei
+
+[plantuml]
+----
+@startuml
+
+actor "Dancing Student" as user
+actor "Course Admin" as admin
+
+left to right direction
+package "Danceschool System" {
+    user --> (invoke schedule)
+    user --> (check in for course)
+    (invoke schedule) <. (open lesson program) : extends
+    admin --> (create course)
+    admin --> (add lesson program)
+    (add lesson program) .> (create course) : include
+}
+@enduml
+----
+
+* Notation falsch
+** keine Pfeile bei Assoziationen
+** Systemrahmen sollte anders beschriftet sein
+
+|gut(2)
+
+|{counter:katalognr}
+|PV
+a|
+* Thema: Skischule
+
+[plantuml]
+----
+@startuml
+abstract class Person {
+- id : Integer
+- firstname : String
+- lastname : age
+- age : int
+- course : Course
+}
+
+class Skiteacher {
+- salary : int
+}
+
+class Skistudent{
+}
+
+class Course{
+- name : String
+- member : int
+- aClass : Class
+- location : Location
+- teacher: Skiteacher
+}
+
+class Location{
+- id : Integer
+- name : String
+- numberOfSkilifts : int
+- kilometersOfSlopes : int
+}
+
+'class SkistudentRepository{
+'+ skistudentList : List<Skistudent>
+'}
+'
+'class SkiteacherRepository{
+'+ skiteacherList : List<Skiteacher>
+'}
+'
+'class CourseRepository{
+'+ courseList : List<Course>
+'}
+'
+'class LocationRepository{
+'+ locationList : List<Location>
+'}
+'
+'class SkistudentService{
+'+ repoCourse : CourseRepository
+'+ repoTeacher : SkiteacherRepository
+'+ repoStudent : SkistudentRepository
+'}
+'
+'class SkiteacherService{
+'+ repoCourse : CourseRepository
+'+ repoTeacher : SkiteacherRepository
+'+ repoStudent : SkistudentRepository
+'}
+'
+'class CourseService{
+'+ repoCourse : CourseRepository
+'+ repoTeacher : SkiteacherRepository
+'+ repoStudent : SkistudentRepository
+'}
+'
+'class LocationService{
+'+ repoLocation : LocationRepository
+'}
+
+'interface Repository
+
+enum Class {
+ANFAENGER
+KOENNER
+PROFIS
+UNBEKANNT
+}
+
+Skistudent "1" -- "*" Booking: macht Kurs >
+Booking "*" --> "1" Course
+Skiteacher "1" -- "*" Course: unterrichtet >
+Skiteacher --\|> Person
+Skistudent --\|> Person
+'SkiteacherRepository --> Repository
+'SkistudentRepository --> Repository
+'LocationRepository --> Repository
+Course "1" *--> "1" Class
+Course "1" *--> "1" Location
+
+'SkiteacherRepository "1" *--> "*" Skiteacher
+'SkistudentRepository "1" *--> "*" Skistudent
+'CourseRepository "1" *--> "*" Course
+'LocationRepository "1" *--> "*" Location
+
+'SkiteacherService "1" *--> "1" SkiteacherRepository
+'SkiteacherService "1" *--> "1" CourseRepository
+
+'SkistudentService "1" *--> "1" SkistudentRepository
+'SkistudentService "1" *--> "1" CourseRepository
+
+'CourseService "1" *--> "1" CourseRepository
+'CourseService "1" *--> "1" LocationRepository
+'
+'LocationService "1" *--> "1" LocationRepository
+
+@enduml
+----
+
+* Für die id's bitte _durchgehend_ als Type `Long` nehmen (für JPA brauchen wir immer die Wrapper und nicht die primitiven Typen)
+* `Course` in `Person` wird schwierig, da es für die `Skistudent` Instanzen ja nur über `Booking` zugewiesen ist
+* beim `Class` enum (eventuell Name überdenken) wäre nur die Zuordnung zu einem Kurs möglich, das ist denke ich nicht ganz gewolt - 1:n macht mehr Sinn
+* sehr bemüht, sogar eine Vererbung!
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor "Person" as person
+
+rectangle Skischule {
+  usecase "register student" as UC1
+  usecase "create course" as UC2
+  usecase "add location" as UC3
+  usecase "register teacher" as UC4
+  usecase "delete teacher" as UC5
+  usecase "delete student" as UC6
+  usecase "delete location" as UC7
+  usecase "delete course" as UC8
+  usecase "view all students" as UC9
+  usecase "view all teachers" as UC10
+  usecase "view all courses" as UC11
+  usecase "view all locations" as UC12
+}
+
+person --> UC1
+person --> UC2
+person --> UC3
+person --> UC4
+person --> UC5
+person --> UC6
+person --> UC7
+person --> UC8
+person --> UC9
+person --> UC10
+person --> UC11
+person --> UC12
+@enduml
+----
+
+* Das sind definitv zu viele UCs
+* weniger Trivial - UCs, mehr business process verwenden
+
+|sgt(1)
+
+|{counter:katalognr}
+|RJ
+a|
+* Thema: Fitnessstudio
+
+[plantuml]
+----
+@startuml
+Employee "*" --- "1" Studio
+Client "*" --- "1" Studio
+
+class Employee {
+    + int: id
+    - String: firstName
+    - String: lastName
+}
+
+class Client {
+    + int: id
+    - String: firstName
+    - String: lastName
+    - String: email
+    - int: dayAbleToGo
+}
+
+class Studio {
+    + int: id
+    - String: city
+    # List<Client> clients
+    # List<Employee> employees
+}
+@enduml
+----
+
+* Syntax für Fields ist <fieldName>: <dataType>
+* Für die Properties bitte die Wrapper statt den primitiven Typen nehmen (z.B. `Integer` statt `int`). Noch besser `Long`
+* Was soll `dayAbleToGo` sein?
+* Das CLD von Rosie ist leider auch nicht besonders gelungen, allerdings hat Sie zwei Stammdaten-Tables mit einer Bewegungsdaten-Table (*:*-Auflösung) verknüpft.
+Du hingegen verwendest ausschließlich Stammdaten !!!
+
+[plantuml]
+----
+@startuml
+left to right direction
+
+actor Client as c
+actor Employee as e
+
+package Studio {
+    usecase "using it" as UC1
+    usecase "paying for it" as UC2
+    usecase "working there" as UC3
+}
+
+c --> UC1
+c --> UC2
+e --> UC3
+@enduml
+----
+
+* falsche Notation
+** Assoziationen haben keine Pfeilspitzen
+** Beschriftung des Systemrahmens
+** UCs sind keine UCs (copy-paste ist auch keine Lösung)
+
+|ngd(5)
+
+|{counter:katalognr}
+|SS
+a|
+* Thema: Fakturierung
+
+[plantuml]
+----
+@startuml
+class Partei {
+    - String name
+    - String strasse
+    - int hausnummer
+    - int plz
+    - String stadt
+}
+
+class Fakturierung {
+    - long id
+    - Partei leistenderUnternehmer
+    - Partei leistungsempfaenger
+    - long steuernummer
+    - LocalDate ausstellungsdatum
+    - long rechnungsnummer
+    - String leistungsumfang
+    - LocalDateTime zeitpunkt
+    - Entgelt entgelt
+    - double umsatzsteuer
+    - String hinweisAufAufbewahrungspflicht
+    - String gutschrift
+}
+
+class Entgelt {
+    - double betrag
+    - Waehrung waehrung
+}
+
+enum Waehrung {
+    EURO
+    DOLLAR
+    PFUND
+    KAMELE
+}
+
+@enduml
+----
+
+* Syntax für Fields ist <fieldName>: <dataType>
+* Gerade bei Geldwerten bitte unbedingt `BigDecimal` und nicht `double` nehmen!
+** wenn es ums Geld geht akzeptieren Kunden auch keinen noch so kleinen Rundungsfehler
+* In deiner `Fakturierung` Klasse hast du zwei Properties die Parteien abbilden (Empfänger und Unternehmer), im Diagramm ist aber nur 1 Partei abgebildet
+* Was hast du dir als Key für `Entgelt` überlegt?
+** Und: bitte englische Bezeichner nehmen - das ist Industriestandard!
+
+.Vorschlag
+[plantuml]
+----
+@startuml
+class Customer
+
+class Invoice
+
+class LineItem
+
+class Product
+
+
+Customer <-l-- Invoice
+
+Invoice "1" <-l-- "*" LineItem
+
+LineItem "*" -r--> "1" Product
+
+
+@enduml
+----
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor User
+
+package Fakturierung {
+    usecase "get all Fakturierungen" as UC1
+    usecase "get a single Fakturierung" as UC2
+    usecase "add a Fakturierung" as UC3
+    usecase "update a Fakturierung" as UC4
+    usecase "delete a Fakturierung" as UC5
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+@enduml
+----
+
+* falsche Notation
+** Assoziationen haben keine Pfeilspitzen
+** Beschriftung des Systemrahmens
+** weniger Trivial - UCs, mehr business process verwenden
+
+|bef(3)
+
+|{counter:katalognr}
+|SL
+a|
+* Thema: Kfz-Händler
+
+
+[plantuml]
+----
+@startuml
+enum Brand {
+TOYOTA,
+    MERCEDES,
+    FORD,
+    SKODA,
+    CITROEN,
+    BMW,
+    SUBARU,
+    PORSCHE,
+    FERRARI,
+    VW,
+    MITSUBISHI,
+    HONDA,
+    MAZDA,
+    HYUNDAI,
+    CHEVROLET,
+    KIA,
+    OPEL,
+    SEAT,
+    FIAT,
+    LEXUS,
+    AUDI
+}
+
+class Car {
+    - id: Long
+    - model: String
+    - brand: Brand
+    - color: String
+    - hp: int
+    - price: double
+}
+
+class Customer {
+    - id: Long
+    - firstName: String
+    - lastName: String
+    - dateOfBirth: LocalDate
+    - place: String
+    - street: String
+    - zip: String
+    - budget: double
+}
+
+class Sale {
+    - car: Car;
+    - customer: Customer
+    - salesman: Salesman
+    - contractDate: LocalDate
+    - discount: double
+}
+
+class Salesman {
+    - id: Long
+    - firstName: String
+    - lastName: String
+    - hireDate: LocalDate
+    - salary: double
+}
+
+Car -down-> Brand
+Sale "1" -right-> "1" Car : is sold <
+Sale "*" --> "1" Salesman : sells <
+Sale "*" -left-> "1" Customer : buys <
+@enduml
+----
+
+
+* passt gut
+
+
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor User as user
+rectangle Kfz-Händler {
+  usecase "Find out which cars have been bought by a certain customer" as UC1
+  usecase "Find out which cars have been sold by a certain salesman" as UC2
+  usecase "See which cars are affordable for a certain customer" as UC3
+}
+user --> UC1
+user --> UC2
+user --> UC3
+
+@enduml
+----
+
+
+* falsche Notation
+** Assoziationen haben keine Pfeilspitzen
+** Beschriftung des Systemrahmens
+** Der Text in den UCs ist definitiv zu lang
+** weniger Trivial - UCs, mehr business process verwenden
+
+
+|sgt(1)
+
+|{counter:katalognr}
+|SM
+a|
+* Thema Friseurladen
+
+[plantuml]
+----
+@startuml
+class Friseur extends Person{
+  -gehalt: int
+  -termine: List<Termin>
+  +Friseur(String vorname, String nachname)
+  +int getGehalt()
+  +void setGehalt()
+  +List<Termin> getTermine()
+  +void addAppointment(String date, Kunde kunde)
+
+}
+
+class Kunde extends Person{
+  -telefonNr: String
+  +String getTelefonNr()
+  +void setTelefonNr(String telefonNr)
+}
+
+class Person {
+  -vorname: String
+  -nachname: String
+  +String getVorname()
+  +void setVorname(String vorname)
+  +String getNachname()
+  +void setNachname(String nachname)
+
+}
+
+class Termin {
+  -kunde: Kunde
+  -date: String
+  +Termin(Kunde kunde, String date)
+  +Kunde getKunde()
+  +void setKunde(Kunde kunde)
+  +String getDate()
+  +void setDate(String date)
+}
+
+Friseur "1" -right- "0...*" Kunde : looks after >
+Kunde "1" --- "1...*" Termin : books >
+
+
+@enduml
+----
+
+* Ich würde Friseur und Kunde über den Termin zusammen finden lassen
+* Bitte englische Bezeichner nehmen - das ist Industriestandard!
+* Vererbung - brav!
+
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor Person as p
+
+package hairsalon {
+    usecase "create customer" as UC1
+    usecase "delete customer" as UC2
+    usecase "create hairdresser" as UC3
+    usecase "delete hairdresser" as UC4
+    usecase "create appointments for customers" as UC5
+    usecase "delete appointments" as UC6
+    usecase "assign a customer to a hairdresser" as UC7
+    usecase "assign a appointment to a hairdresser" as UC8
+}
+
+p --> UC1
+p --> UC2
+p --> UC3
+p --> UC4
+p --> UC5
+p --> UC6
+p --> UC7
+p --> UC8
+@enduml
+----
+
+* falsche Notation
+** Assoziationen haben keine Pfeilspitzen
+** Beschriftung des Systemrahmens
+** create/update/delete -> ist nur ein UC
+** Das sind definitiv zuviele UCs -> unübersichtlich
+** weniger Trivial - UCs, mehr business process verwenden
+
+
+|gut(2)
+
+|{counter:katalognr}
+|TS
+a|
+* Thema Restaurant
+
+[plantuml]
+----
+@startuml
+
+class Guest {
+   id : Int
+   firstName : String
+   lastName : String
+   telefonNumber : String
+}
+
+class Product {
+   Guest: Guest
+   Cook : Cook
+   id : Int
+   name : String
+   price : Double
+}
+
+class Cook {
+   id : Int
+   firstName : String
+   lastName : String
+}
+
+Product "*" -left-> "1"  Guest: has
+Product "*" -right-> "1"  Cook: is made
+
+
+
+@enduml
+----
+
+* Diagramm nicht in Readme integriert
+* der Wrapper Datentyp ist `Integer` (besser `Long`) und nicht `Int`
+* Für `price` (Geldwert) `BigDecimal` verwenden oder noch besser `Currency`
+* Da könnte man noch viel mehr draus machen - denk an das Restaurant ERD das wir letztes Jahr gemacht haben
+** Wir wissen beide, dass du viel mehr drauf hast als das Minimalprogramm!
+
+* Du solltest Dir überlegen, was Du abbilden möchtest:
+** zB die Reservierung von Tischen
+** zB das Schreiben der Rechnung für die Gäste
+
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor Guest
+
+rectangle {
+
+    Guest --- (order product)
+    Guest --- (consume table)
+    Guest --- (pay for product)
+
+}
+@enduml
+----
+
+* Was soll "consume table" bedeuten, konsumierst Du Tische?
+* Bezeichnung des Systemrahmens fehlt
+
+|gut(2)
+
+|{counter:katalognr}
+|TK
+a|
+* Thema: Callcenter
+
+[plantuml]
+----
+@startuml
+class Kunde  {
+    id : int
+    firstName : String
+    lastName : String
+    mobileNum : String
+
+}
+
+class Beratung {
+    kundenNum : int
+    kundenVorN : String
+    kundennNachN : String
+
+}
+class Angestellter{
+    id : int
+    firstName : String
+    lastName : String
+}
+
+
+Beratung "1" --> "1" Kunde : nimmt teil
+
+Beratung "*" --> "1" Angestellter: hat mehrere
+@enduml
+----
+
+* Diagramm nicht in Readme integriert
+* Bitte englische Bezeichner nehmen - das ist Industriestandard!
+* Für JPA brauchen wir den Wrapper Datentyp `Integer` (besser `Long` und nicht den primitive `int`
+* Ein Kunde kann durchaus mehrere Surveys haben
+* Sehr minimal, in einem Callcenter haben wir diverse Umfragen
+** Ich habe eine Callcenter Software geschrieben und verkauft, du darfst mich gerne mal befragen was die alles abdeckt 😉
+
+* Du hast keine Attribute, für die Assoziationen.
+* Wo ist die Bewertung abgebildet?
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor Kunde
+
+rectangle {
+
+    Kunde -- (fragt nach eine Beratung an)
+    Kunde -- (nimmt an einer Beratung teil)
+    Kunde -- (bewertet die Beratung)
+
+}
+@enduml
+----
+
+* Bezeichnung des Systemrahmens fehlt
+
+|bef(3)
+
+|{counter:katalognr}
+|TI
+a|
+* Thema: Busreisen (inkl Schulbusse)
+
+[plantuml]
+----
+@startuml
+class Bus {
+    -id: int
+    -seats: int
+    -driver: String
+    -company: String
+    -brand: String
+    +Bus()
+    +Bus(int id, int seats, String driver, String company, String brand)
+    +int getId()
+    +void setId(int id)
+    +int getSeats()
+    +void setSeats(int seats)
+    +String getDriver()
+    +void setDriver(String driver)
+    +String getCompany()
+    +void setCompany(String company)
+    +String getBrand()
+    +void setBrand(String brand)
+    +String toString()
+}
+
+class Driver {
+    -id: int
+    -firstName: String
+    -lastName: String
+    -busId: int
+    +Driver()
+    +Driver(int id, String firstName, String lastName, int busId)
+    +int getId()
+    +void setId(int id)
+    +String getFirstName()
+    +void setFirstName(String firstName)
+    +String getLastName()
+    +void setLastName(String lastName)
+    +int getBusId()
+    +void setBusId(int busId)
+    +String toString()
+}
+
+class Passenger {
+    -id: int
+    -firstName: String
+    -lastName: String
+    -telNr: String
+    -busId: int
+    -driverId: int
+    +Passenger()
+    +Passenger(int id, String firstName, String lastName, String telNr, int busId, int driverId)
+    +int getId()
+    +void setId(int id)
+    +String getFirstName()
+    +void setFirstName(String firstName)
+    +String getLastName()
+    +void setLastName(String lastName)
+    +int getBusId()
+    +void setBusId(int busId)
+    +int getDriverId()
+    +void setDriverId(int driverId)
+    +String toString()
+}
+
+Driver "1" -- "1  " Bus : drives >
+Passenger "0...*   " -- "1" Bus : takes >
+
+@enduml
+----
+
+* Für die Properties bitte die Wrapper statt den primitiven Typen nehmen (z.B. `Integer` (besser `Long`) statt `int`)
+* Ich denke die Busreisen sind ein spitzen Kandidat für eine assoz. Table mit drei Beziehungen:
+** Ein Fahrer fährt diverse Busse
+** Ein Fahrgast fährt auf diversen Strecken mit verschiedenen Bussen
+** Ein Bus wird für unterschiedlichste Fahrten eingesetzt
+** Hier wäre eine Assoc. Table mit Beziehungen zu `Driver`, `Passenger` und `Bus` gut die Start, Ziel und Datum definiert
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor Driver as d
+actor Passenger as p
+actor Bus as b
+
+package Bus-Rental {
+    usecase "rent bus" as UC1
+    usecase "rent driver" as UC2
+    usecase "drive bus" as UC3
+    usecase "transport passengers" as UC4
+}
+p --> UC1
+p --> UC2
+d --> UC3
+b --> UC4
+@enduml
+----
+
+* falsche Notation
+** Assoziationen haben keine Pfeilspitzen
+** Beschriftung des Systemrahmens
+
+* Du hast durchaus einiges programmiert, jedoch nur tw. korrekt.
+
+|gen(4)
+
+|{counter:katalognr}
+|WN
+a|
+* Thema Autovermietung
+
+[plantuml]
+----
+@startuml
+class Auto{
+-id: int
+-name: String
+-preis: double
+}
+
+class Kunde{
+-id: int
+-name: String
+-dateOfBirth: LocalDate
+}
+
+class Vermietung{
+-auto: Auto
+-kunde: Kunde
+-startDatum: LocalDate
+-endDatum: LocalDate
+-discount: double
+}
+
+Auto "1" <- "*" Vermietung : ist vermietet
+Vermietung "*" -> "1" Kunde : vermietet
+@enduml
+----
+
+
+* Bitte englische Bezeichner nehmen - das ist Industriestandard!
+* Für JPA brauchen wir den Wrapper Datentyp `Integer` (besser `Long`) und nicht den primitive `int`
+* simpel aber leider nicht korrekt.
+** Deine Relation "Vermietung" braucht auch einen Preis, sonst würde sich bei einer Preiserhöhung rückwirkend der Umsatz erhöhen.
+
+[plantuml]
+----
+@startuml
+left to right direction
+actor User as g
+
+package Eventmanager {
+  usecase "auto ausleihen" as UC1
+  usecase "auto zurückgeben" as UC2
+  usecase "auto suchen" as UC3
+}
+g --> UC1
+g --> UC2
+g --> UC3
+@enduml
+----
+
+* falsche Notation
+** Assoziationen haben keine Pfeilspitzen
+** Beschriftung des Systemrahmens
+
+
+|gut(2)
+
+|{counter:katalognr}
+|WJ
+a|
+
+* Dein README.md nicht mit HTML-Tags erstellen, Du HTML/CSS-Programmierer
+* Deine Doku im README ist sehr gut (wären nicht alle Links broken)
+
+* Thema Parkplatzverwaltung
+
+[plantuml]
+----
+@startuml
+class Auto {
+besitzer: Kunde
+nummernschild: String
+}
+
+class Kunde {
+-firstname: String
+-lastname: String
+-email: String
+}
+
+class Parkplatz {
+-auto: Auto
+-id: id
+}
+
+Parkplatz "1" -> "1" Auto
+Auto "*" -> "1" Kunde
+@enduml
+----
+
+* Bitte englische Bezeichner nehmen - das ist Industriestandard!
+* Was soll `id` in `Parkplatz` für ein Datentyp sein?
+* Bei dir kann ein Parkplatz bloß 1x vermietet werden, dann wird abgerissen und neu gebaut? Nicht sehr umweltfreundlich 😢
+** Wir brauchen hier eine m:n Beziehung, weil ein Parkplatz von mehreren Autos zu verschiedenen Zeitpunkten genutzt wird und ein Auto auch an diversen Stellen parkt
+* Parkgebühren könntest du auch verlangen um nicht pleite zu gehen
+* Datenmodell eher mies
+* UCD fehlt
+
+.nicht ok
+[source,java]
+----
+public Boolean getOccupied() {
+
+    if (auto != null) {
+        return true;
+    } else {
+        return false;
+    }
+}
+----
+
+.besser
+[source,java]
+----
+return auto != null
+----
+
+|bef(3)
+
+|===
+
+====

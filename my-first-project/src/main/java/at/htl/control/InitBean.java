@@ -1,5 +1,6 @@
 package at.htl.control;
 
+import at.htl.entity.Node;
 import io.quarkus.runtime.StartupEvent;
 import org.jboss.logging.Logger;
 
@@ -18,6 +19,12 @@ public class InitBean {
     Logger LOG;
 
     public InitBean() {
+        runPrototype();
+    }
+
+    private void runPrototype() {
+        Node turnier = new Node();
+
     }
 
     @PostConstruct

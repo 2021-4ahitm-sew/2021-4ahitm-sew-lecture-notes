@@ -1132,6 +1132,8 @@ public class InitBean {
 
 * Persistierung mit JPA
 
+== 2020-11-13
+
 ==== Vorgangsweise beim Einrichten
 
 zB Die Objekte einer Klasse Person sollen in einer DB persisitiert werden
@@ -1225,10 +1227,314 @@ quarkus.hibernate-orm.database.generation=drop-and-create
 ** Lazy Loading
 ** Eager Loading
 
+== Strategien für Primärschlüsselerstellung
+
+* IDENTITY
+** Autowert, AutoIncrement -> in einem Tabellenfeld wird automatisch ein Zähler hochgezählt
+* SEQUENCE
+** Die Sequence ist ein eigenständiges Datenbankobjekt, die eine Folge von Zahlen generiert
+** in Reihenfolge, zufällig, rollieren usw.
+** kann man mit der Annotation @SequenceGenerator im Code erstellem
+* TABLE
+** die einfachste Variante
+** eine Tabelle (meist mit Namen SEQUENCE) hat ein Feld mit einer Zahl, die mit UPDATEs hochgezählt wird
+** Manchmal hat man für jede Tabellen-Id eine eigene Zeile
+* AUTO
+** eine der obigen Staretgien wird automatisch gewählt (meist TABLE)
 
 
 
+== 2020-11-17
+Prof. Haslinger
 
+=== Persistieren mit Enums und Referenzen zwischen Klassen
+
+[source,java]
+----
+@Enumerated(EnumType.ORDINAL) // <.>
+private Gender gender;
+----
+
+<.> Der enum Wert wird als String in DB gespeichert
+
+=== Fetching EAGER vs LAZY
+
+=== Bidirektionale Beziehungen
+
+[plantuml,bidirect,png]
+----
+@startuml
+class Person {
+  hobbies: List<Person>
+}
+
+class Hobby {
+  person: Person
+}
+Person <-- Hobby : person <
+Hobby <-- Person : List<Hobby> <
+@enduml
+----
+
+* Problem: wird ein `Hobby` in `hobbies` eingetragen,
+
+.Wird in in einem Hobby-Objekt eine Person eingetragen
+[source,java]
+----
+public void setPerson(Person person) {
+    this.person = person;
+    person.getHobbies().add(this); // <.>
+}
+----
+
+<.> Man aktualisiert
+
+== 2020-12-01
+
+=== Datenmodell
+
+* Stammdaten meist über Bewegungsdaten assoziiert
+* Repository-Pattern
+** keine Repositories für schwache Entitäten
+** -> https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design#define-one-repository-per-aggregate
+
+
+=== Test
+
+* zuerst Use-Cases / User-Stories definieren und dann
+* Tests für die einzelnen Use-Cases / User-Stories schreiben
+** System-Tests (Endpoints)
+*** zB ein Produkt anlegen
+*** zB einen Kunden anlegen
+*** zB eine Rechnung mit drei Rechnungspositionen erstellen
+** Integrations-Tests (zB für Repository-Klassen)
+*** vor allem Dingen die Assoziationen
+**** unidirektional
+**** wenn bidirektional, das Einfügen und löschen von Objekten AUF BEIDEN SEITEN
+** Unit-Tests (nur eine Klasse wird getestet, zB Entity-Klassen)
+*** nicht nur Getter und Setter testen
+*** eher eigene Logik (wenn etwas berechnet wird, equals-Methoden usw.)
+*** wenn ein Setter/Getter eine beondere zusätzliche Logik hat, dann ist er sehr wohl zu testen
+
+=== Arten von Beziehungen zwischen Objekten
+
+==== Vererbung
+
+[plantuml,vererbung,png]
+----
+@startuml
+class Vehicle {
+  brand: String
+  model: String
+}
+class Pkw {
+  isCabrio: boolean
+}
+class Lkw
+Vehicle <|-- Lkw
+Vehicle <|-- Pkw
+@enduml
+----
+
+[source,java]
+----
+Pkw kaefer = new Pkw();
+----
+
+* 3 Strategien
+** SINGLE_TABLE
+** TABLE_CLASS (table per concrete class)
+** joined
+
+==== Aggregation
+
+* besteht-aus, consists-of
+* Objekte können zerstörungsfrei getrennt werden
+* Bsp: Auto und Autoreifen
+
+[plantuml,aggregation,png]
+----
+@startuml
+Automobil o-- Reifen : aggregation
+@enduml
+----
+
+==== Komposition
+
+* besteht-aus, consists-of
+* Objekte können nicht zerstörungsfrei getrennt werden
+* Bsp
+** Buch - Kapitel
+** Haus - Etage
+
+[plantuml,komposition,png]
+----
+@startuml
+Haus *-- Etage : komposition
+@enduml
+----
+
+
+==== Assoziation (<use>-Beziehung)
+
+in verschiedenen Multiplizitäten (Kardinalität)
+
+* 1:*
+* 1:1
+* \*:*
+
+[plantuml,assoziation,png]
+----
+@startuml
+Class1 "*" ---> "1" Class2 : assoziation >
+Person "1" <--- "*" Hobby : übt aus >
+@enduml
+----
+
+=== UML-Klassendiagramm
+
+[plantuml,cld01,png]
+----
+@startuml
+class Form {
+  - urspung
+  + verschieben()
+  # foo()
+}
+@enduml
+----
+
+* Konvention -> Vereinbarung
+* Signatur einer Methode: Scope + Rückgabewert + Methodenname + Parameterleiste
+* Objekt (Object) = Instanz einer Klasse; mit Identität und Zustand
+
+* Beispiel: PKW
+** Anwendungsfall 1: Transport von Personen
+** Anwendungsfall 2: Transport von Gütern
+** Anwendungsfall 3: Cruisen auf der Landstraße (Statussymbol)
+
+* Eigenschaften von Objekten
+** Objektidentität
+
+image:objektidentitaet.png[]
+
+** Datenkapselung
+image:datenkapselung.png[]
+
+** Polymorphismus (Vielgestaltigkeit)
+
+[plantuml,polym,png]
+----
+@startuml
+class Animal {
+  abstract say()
+}
+class Duck {
+  say()
+}
+class Cat {
+  say()
+}
+Animal <|-- Duck
+Animal <|-- Cat
+@enduml
+----
+
+[source,java]
+----
+Duck donald = new Duck();
+donald.say(); // quack
+Cat mimi = new Cat();
+mimi.say(); // miau
+
+List<Animal> animals = new LinkedList<>();
+animals.add(donald);
+animals.add(mimi);
+animal.get(0).say(); // quack
+annimal.get(1).say(); // miau
+----
+
+** Vererbung
+
+==== Beziehungen zwischen Objekte
+
+===== Generalisierung (Vererbung)
+
+===== Assoziation
+
+[plantuml,assoziation01,png]
+----
+@startuml
+Person "Abeitnehmer\n1..*" --- "Arbeitgeber\n1" Firma: arbeitet für >
+@enduml
+----
+
+.unidirektional
+[plantuml,assoziation02,png]
+----
+@startuml
+class Person{
+  firma: Firma
+}
+Person "1..*" -r-> "1" Firma: arbeitet für >
+@enduml
+----
+
+.unidirektional
+[plantuml,assoziation03,png]
+----
+@startuml
+class Person{
+}
+class Firma {
+  belegschaft: List<Person>
+}
+Person "1..*" <-l- "1" Firma: arbeitet für >
+@enduml
+----
+
+.bidirektional
+[plantuml,assoziation04,png]
+----
+@startuml
+class Person{
+  - firma: Firma
+  + setFirma()
+}
+class Firma {
+  - belegschaft: List<Person>
+  + addPerson()
+}
+Person "1..*" <-l- "1" Firma: hat Angestellte <
+Person "1..*" -l-> "1" Firma: arbeitet für >
+@enduml
+----
+
+.Beispiel: Automatisch ergänzen der anderen Seite
+[source,java]
+----
+public class Person {
+    public void setFirma(Firma firma) {
+        if (firma != null && firma.isInstanceof(Firma.class)) {
+          firma.addPerson(this);
+        }
+    }
+}
+----
+
+===== Aggregation
+
+* "Ganze-Teile"-Beziehung, die zerstörungsfrei zerlegt werden kann
+* Bsp
+** Auto + Autoreifen
+
+
+===== Komposition
+
+* "Ganze-Teile"-Beziehung, die *nicht* zerstörungsfrei zerlegt werden kann
+* Bsp
+** Haus + Stockwerk
+** Buch + Kapitel
 
 
 

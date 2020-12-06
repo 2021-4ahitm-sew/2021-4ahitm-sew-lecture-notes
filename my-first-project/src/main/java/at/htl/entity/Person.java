@@ -16,7 +16,7 @@ public class Person {
     private Long id;
     private String name;
     private LocalDate dayOfBirth;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})

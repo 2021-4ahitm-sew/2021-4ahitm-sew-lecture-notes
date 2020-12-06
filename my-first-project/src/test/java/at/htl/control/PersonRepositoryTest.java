@@ -1,11 +1,13 @@
 package at.htl.control;
 
 import at.htl.entity.Gender;
+import at.htl.entity.Gender;
 import at.htl.entity.Hobby;
 import at.htl.entity.HobbyCategory;
 import at.htl.entity.Person;
 import io.quarkus.test.junit.QuarkusTest;
 import org.assertj.db.type.Table;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -31,7 +33,9 @@ class PersonRepositoryTest {
 
     @Inject
     UserTransaction tx;
+
     @Test
+    @Disabled
     //@Transactional
     void insertPerson() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
         Person susi = new Person("Susi");
@@ -47,6 +51,7 @@ class PersonRepositoryTest {
 
     @Transactional
     @Test
+    @Disabled
     void retrievePerson() {
         Person hansi = new Person("Hansi");
         repo.add(hansi);
@@ -98,4 +103,15 @@ class PersonRepositoryTest {
         dataSource.setPassword(PASSWORD);
         return dataSource;
     }
+
+    @Test
+    @Transactional
+    void showPersistenceContext() {
+        Person susi = new Person("Susi");
+        em.persist(susi);
+        susi.setName("Suzie Quattro");
+        susi.setGender(Gender.FEMALE);
+        em.merge(susi);
+    }
 }
+
