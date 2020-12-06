@@ -162,6 +162,12 @@ u --> UC6
 
 * update/delete department kann man zu einem Use-Case zusammenfassen -> manage department
 * Wennich mir Deine Use-Cases ansehe, ist Dein System ziemlich sinnlos
+-> Geschäftsprozesse modellieren
+git
+* falsche Notation
+** Assoziationen haben keine Pfeilspitzen
+** Beschriftung des Systemrahmens
+
 
 |gut(2)
 
@@ -624,7 +630,10 @@ Glasses "1" --- "1" Customer: owns <
 * Syntax für Fields ist <fieldName>: <dataType>
 * Als Brillenträger kann ich dir versichern, dass sich linkes und rechtes Brillenglas nicht nur an der Stärke unterscheiden (sondern z.B. auch beim Einschliff des Blickpunkts)
 * Kunden haben übrigens auch mehrere Brillen (z.B. Sonnebrillen)
+
+////
 * mein Vorschlag:
+
 
 [plantuml]
 ----
@@ -642,9 +651,12 @@ Glasses "1" -- "1" Frame
 Glasses "1" -- "2" Lens
 @enduml
 ----
-
-* zweiter Vorschlag:
+////
+* Vorschlag:
 ** es ist nicht optimal für Brillengläser und Rahmen eigene Klassen zu verwenden
+** ein Brillenglas ist nur ein bestimmtes Produkt, dass ev. noch nach gewissen Parametern bearbeitet wurde
+** ein Kunde kann mehrere Brillen auf einmal kaufen
+** die Lieferzeit für die Fertigung muss man ersehen können
 
 [plantuml]
 ----
@@ -666,7 +678,7 @@ o --> uc3
 @enduml
 ----
 
-* Mit Deinem Datemodell sind diese Use-Cases nicht möglich
+* Mit Deinem Datenmodell sind diese Use-Cases nicht möglich
 
 |gen(4)
 
@@ -741,7 +753,7 @@ m --> UC4
 
 * Was ist it?
 
-|gen(4)
+|ngd(5)
 
 |{counter:katalognr}
 |KF
@@ -813,8 +825,10 @@ g --> UC6
 ----
 
 * Trivial-UCs -> siehe 02DJ
+* Das ist zuwenig und das inkorrekt
 
-|gnd(4)
+
+|ngd(5)
 
 |{counter:katalognr}
 |MR
@@ -1170,7 +1184,7 @@ class Studio {
 * Syntax für Fields ist <fieldName>: <dataType>
 * Für die Properties bitte die Wrapper statt den primitiven Typen nehmen (z.B. `Integer` statt `int`). Noch besser `Long`
 * Was soll `dayAbleToGo` sein?
-* Das CLD von Rosie ist leider auch nicht besonders gelungen, allerdings hat Sie zwei Stammdaten-Tables mit einer Bewegungsdaten-Table (*:*-Auflösung) verknüpft.
+* Das CLD von Silvio ist leider auch nicht besonders gelungen, allerdings hat er zwei Stammdaten-Tables mit einer Bewegungsdaten-Table (*:*-Auflösung) verknüpft.
 Du hingegen verwendest ausschließlich Stammdaten !!!
 
 [plantuml]
@@ -1242,7 +1256,9 @@ enum Waehrung {
     PFUND
     KAMELE
 }
-
+Waehrung "1" <-right- "*" Entgelt
+Entgelt "1" <-right- "*" Fakturierung
+Partei "1" <-down- "*" Fakturierung
 @enduml
 ----
 
@@ -1303,7 +1319,7 @@ User --> UC5
 ** Beschriftung des Systemrahmens
 ** weniger Trivial - UCs, mehr business process verwenden
 
-|bef(3)
+|ngd(5)
 
 |{counter:katalognr}
 |SL
@@ -1576,7 +1592,7 @@ rectangle {
 * Was soll "consume table" bedeuten, konsumierst Du Tische?
 * Bezeichnung des Systemrahmens fehlt
 
-|gut(2)
+|gen(4)
 
 |{counter:katalognr}
 |TK
@@ -1641,7 +1657,7 @@ rectangle {
 
 * Bezeichnung des Systemrahmens fehlt
 
-|bef(3)
+|gen(4))
 
 |{counter:katalognr}
 |TI
@@ -1877,7 +1893,7 @@ public Boolean getOccupied() {
 return auto != null
 ----
 
-|bef(3)
+|gen(4)
 
 |===
 
