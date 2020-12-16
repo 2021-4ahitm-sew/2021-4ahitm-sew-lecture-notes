@@ -1538,4 +1538,23 @@ public class Person {
 
 
 
+== 2020-12-15
 
+https://github.com/htl-leonding-college/smallwind-quarkus[smallwind-demo]
+
+[source,sql]
+----
+select c.CUST_COUNTRY, count(*)
+from SW_CUSTOMER c
+inner join SW_ORDERING SO on c.CUST_ID = SO.ORD_CUST_ID
+group by c.CUST_COUNTRY;
+----
+
+https://www.objectdb.com/java/jpa/query/jpql/structure
+
+[source,jpaql]
+----
+select o.customer.country, count(o) from Ordering o group by o.customer.country
+----
+
+* Bei Verwendung von JPA kann man sich den Join sparen, da eine Assoziation existiert.
