@@ -1,0 +1,20 @@
+@startuml
+
+class Person {
+  id: Long
+  name: String
+  hobby: Hobby
+}
+
+class Hobby {
+  id: Long
+  bezeichnung: String
+  personen: List<Person>
+}
+
+Person "*" --> "1" Hobby
+Hobby "1" --> "*" Person
+
+note "Eine Person hat genau 1 Hobby\nEin Hobby kann von vielen PErsonen ausgeübt werden" as N1
+
+@enduml
