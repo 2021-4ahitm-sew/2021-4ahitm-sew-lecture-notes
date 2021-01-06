@@ -16,7 +16,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     //(cascade = CascadeType.ALL)  ... zu gefährlich
     private Hobby hobby;
 
@@ -49,17 +49,17 @@ public class Person {
 
     public void setHobby(Hobby newHobby) {
         // wenn bereits ein Hobby vorhanden, dann lösche diese Person aus vorherigem Hobby
-        if (this.hobby == null && this.hobby != null) {
+        if (this.hobby != null) {
             this.hobby.deletePerson(this);
         }
 
-        // hat die Person kein Hobby, muss ich die Person aus dem alten Hobby löschen
-        if (newHobby == null && this.hobby != null) {
-            this.hobby.deletePerson(this);
+        // nur wenn ein neues Hobby eingetragen wird,
+        // kann man die Person im Hobby-Objekt eintragen.
+        // (ansonsten NPE - -NullPointerException)
+        if (newHobby != null) {
+            // trage diese Person in das übergebene Hobby ein
+            newHobby.addPerson(this);
         }
-
-        // trage diese Person in das übergebene Hobby ein
-        newHobby.addPerson(this);
 
         this.hobby = newHobby;
     }
