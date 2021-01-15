@@ -1558,3 +1558,44 @@ select o.customer.country, count(o) from Ordering o group by o.customer.country
 ----
 
 * Bei Verwendung von JPA kann man sich den Join sparen, da eine Assoziation existiert.
+
+== 2021-01-15
+
+=== Panáche
+
+siehe Quarkus-Lecture-Notes
+
+bis Repository-Pattern (Bsp wurde erstellt)
+
+=== Unterschied Spezifikation - Implementierung
+
+==== Spezifikation
+zB. JPA oder Jakarta Persistence
+
+==== Implementierung
+zB EclipseLink, Hibernate
+
+
+=== Begriffe
+
+* Surrogat ... Ersatz
+* Ist ein Ersatz für einen natürlichen Schlüssel in einer relationalen DB.
+* Ist ein künstlicher Schlüssel (Primary Key).
+** Meist eine lfd. Nr., die von der DB hochgezählt wird.
+
+
+* Begriffspaar transient/persistent
+** transient ... flüchtig
+** persistent ... dauerhaft (die Daten überleben den Prozess ihrer Entstehung)
+
+* custom (im Gegensatz zu vorgegeben/vordefiniert/standardisiert)
+** custom ... maßgeschneidert, der Benutzer kann sich etwas eigenes "bauen"
+
+* Referenz
+** Verweis auf etwas
+** Beispiele
+*** Referenzvariable verweist auf ein Objekt (refernziert ein Objekt)
+*** Kundenreferenz verweist auf (hoffentlich zufriedene) Kunden meines Produkts
+*** Referenzen in meinem Lebenslauf: verweisen auf vorhergegangene Arbeitgeber (die hoffentlich auch zufrieden waren)
+
+

@@ -1,3 +1,6 @@
+db/
+.DS_Store
+
 build-docs-html/
 build-docs-pdf/
 build-docs-revealjs/
