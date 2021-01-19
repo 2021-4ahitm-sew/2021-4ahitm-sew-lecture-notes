@@ -9,7 +9,10 @@ import javax.enterprise.context.ApplicationScoped;
 public class PersonRepository implements PanacheRepository<Person> {
 
     public Person findByLastName(String lastName) {
+    
         return find("lastName", lastName).firstResult();
     }
 
+    
+    
 }

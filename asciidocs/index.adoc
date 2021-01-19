@@ -1599,3 +1599,23 @@ zB EclipseLink, Hibernate
 *** Referenzen in meinem Lebenslauf: verweisen auf vorhergegangene Arbeitgeber (die hoffentlich auch zufrieden waren)
 
 
+== 2021-01-19
+
+=== Panache
+
+Live-Coding-Projekt: panache-person-demo
+
+* Custom Id
+* detached / attached
+* UnitTest erstellt
+* Unterschied @QuarkusTest und ohne Annotation
+* Panache methods
+** find mit Sort.by()
+** paging
+
+
+* Übung: Erweiterung des Microprojektes mit sinnvollen panache ...
+
+* Übung 2:
+** Vorbereiten des Codes, um in einem Endpoint, die einzelnen Seiten als JSON auszugeben
+* Für Spezialisten: Verwendung von Qute, um Die Seiten als HTML gerendert auszugeben.

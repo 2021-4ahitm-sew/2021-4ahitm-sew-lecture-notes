@@ -10,7 +10,7 @@ cp -r -p -v asciidocs/docinfo.html $BUILD_DIR
 cp -r -p -v asciidocs/.nojekyll $BUILD_DIR
 cp -r -p -v asciidocs/index.adoc $BUILD_DIR
 cp -r -p -v asciidocs/*.adoc $BUILD_DIR
-cp -r -p -v labs/* $BUILD_DIR
+#cp -r -p -v labs/* $BUILD_DIR
 
 #uncomment it when you want to copy the source code into the gh-pages (for including source code into your document)
 #cp -r -p -v src $BUILD_DIR
