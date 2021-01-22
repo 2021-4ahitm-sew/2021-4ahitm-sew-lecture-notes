@@ -1619,3 +1619,23 @@ Live-Coding-Projekt: panache-person-demo
 * Übung 2:
 ** Vorbereiten des Codes, um in einem Endpoint, die einzelnen Seiten als JSON auszugeben
 * Für Spezialisten: Verwendung von Qute, um Die Seiten als HTML gerendert auszugeben.
+
+
+== 2021-01-21 - Angular
+
+lecture-notes: https://htl-leonding-college.github.io/angular-lecture-notes/
+
+https://developer.mozilla.org/de/docs/Glossary/HTML[Anatomy of an HTML element]
+
+* Installieren von Node am Mac
+** bre install
+
+* Updaten von node am Mac
+** brew update && brew upgrade && brew upgrade --cask
+
+
+* Installieren auf Ubuntu
+** sudo apt install nodejs
+
+* Installieren unter Windows
+** https://nodejs.org/dist/v14.15.4/node-v14.15.4-x86.msi
