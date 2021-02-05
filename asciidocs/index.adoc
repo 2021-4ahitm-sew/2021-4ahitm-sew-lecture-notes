@@ -1625,10 +1625,12 @@ Live-Coding-Projekt: panache-person-demo
 
 lecture-notes: https://htl-leonding-college.github.io/angular-lecture-notes/
 
+https://nodejs.org/en/
+
 https://developer.mozilla.org/de/docs/Glossary/HTML[Anatomy of an HTML element]
 
 * Installieren von Node am Mac
-** bre install
+** brew install
 
 * Updaten von node am Mac
 ** brew update && brew upgrade && brew upgrade --cask
@@ -1639,3 +1641,51 @@ https://developer.mozilla.org/de/docs/Glossary/HTML[Anatomy of an HTML element]
 
 * Installieren unter Windows
 ** https://nodejs.org/dist/v14.15.4/node-v14.15.4-x86.msi
+
+
+== 2021-01-26
+
+* Was ist ein:
+** HTML - Element
+** HTML - Attribute
+** HTML - Tag
+
+* format ... das aussehen betreffend
+** zB Aussehen eines Word - Dokuments (fette Schrift, Schriftart, ...)
+** zB die Datenstruktur: als JSON formatieren
+
+* to render ... für die Ausgabe vorbereiten
+
+
+== 2021-02-05
+
+* Chapter 4. Templates and Data Binding
+** 4.1. Interpolation
+** 4.2. Event-Binding
+** 4.3. Template Expressions
+** 4.4. Property Binding
+** 4.5. Two-Way-Binding
+** 4.6. Structural Directive - *ngFor
+** 4.7. Event with Parameter
+** 4.8. Structural Directive - *ngIf
+** 4.9. Exercise: Turmrechnen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,13 +7,13 @@ BUILD_DIR="gh-pages"
 OLD=$(PWD)
 ORIGIN_URL=$(git config --get remote.origin.url)
 ${PWD}/build-html-docker.sh
-cd $BUILD_DIR
+cd $BUILD_DIR || exit
 git init
 git add .
 git commit -m "$USER - rebuilding gh-pages $(date)"
 git remote add origin $ORIGIN_URL
 git push --force origin master:gh-pages
-cd $OLD
+cd $OLD || exit
 rm -rf $BUILD_DIR
 
 # Sources:

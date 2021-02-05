@@ -6,5 +6,27 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'my-great-app';
+  title = '4ahitm coder geeks';
+  myNumber = 41;
+  todos = [
+    'Shopping',
+    'Homework',
+    'Listen to music'
+  ];
+
+  constructor() {
+  }
+
+  public onClicked(): void {
+    this.title += '!!';
+  }
+
+
+  public addItem(): void {
+    this.todos.push('something');
+  }
+
+  public removeItem(item: string): void {
+    this.todos.splice(this.todos.indexOf(item), 1);
+  }
 }
