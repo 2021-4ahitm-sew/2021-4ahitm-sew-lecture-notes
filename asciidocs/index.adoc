@@ -1690,6 +1690,9 @@ IMPORTANT: use -d when creating a new angular project, to avoid a mess with the 
 
 * https://developers.google.com/learn/topics/angular?hl=en
 
+.Web-Frontends and Backend
+image:web-frontends-and-backend.png[]
+
 === SPA - Single Page Application
 
 
