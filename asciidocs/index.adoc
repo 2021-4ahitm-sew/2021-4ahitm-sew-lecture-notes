@@ -1670,6 +1670,27 @@ https://developer.mozilla.org/de/docs/Glossary/HTML[Anatomy of an HTML element]
 ** 4.8. Structural Directive - *ngIf
 ** 4.9. Exercise: Turmrechnen
 
+== 2021-02-16
+
+
+
+* Übungen
+** https://angular.io/start#getting-started-with-angular[Getting started with Angular]
+** https://angular.io/tutorial#tour-of-heroes-app-and-tutorial[Tour of Heroes app and tutorial]
+
+TIP: After every unit commit into repo: https://classroom.github.com/a/_WHf3y1Q
+
+IMPORTANT: each commit has to include your last name - ie Mueller - unit 1 / 1 Introduction to Angular
+
+IMPORTANT: For every angular-project use an own branch
+
+IMPORTANT: Never ever push node_modules into your git-repo
+
+IMPORTANT: use -d when creating a new angular project, to avoid a mess with the git-repos
+
+* https://developers.google.com/learn/topics/angular?hl=en
+
+=== SPA - Single Page Application
 
 
 
