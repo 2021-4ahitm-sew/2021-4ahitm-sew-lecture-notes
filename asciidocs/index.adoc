@@ -1686,7 +1686,7 @@ IMPORTANT: For every angular-project use an own branch
 
 IMPORTANT: Never ever push node_modules into your git-repo
 
-IMPORTANT: use -d when creating a new angular project, to avoid a mess with the git-repos
+IMPORTANT: use -g when creating a new angular project, to avoid a mess with the git-repos
 
 * https://developers.google.com/learn/topics/angular?hl=en
 
