@@ -1695,7 +1695,13 @@ image:web-frontends-and-backend.png[]
 
 === SPA - Single Page Application
 
+== 2021-02-23
 
+* https://classroom.github.com/a/lkNH8piU[Übung Turmrechnen]
+
+== 2021-03-02
+
+* https://classroom.github.com/a/hWIQYx05[Übung TODO Liste]
 
 
 
