@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = '4ahitm coder geeks';
-  myNumber = 41;
+  myNumber = 42;
   todos = [
     'Shopping',
     'Homework',
@@ -28,5 +28,10 @@ export class AppComponent {
 
   public removeItem(item: string): void {
     this.todos.splice(this.todos.indexOf(item), 1);
+  }
+
+  onReset(): void {
+    console.log('Reset clicked!');
+    this.myNumber = 0;
   }
 }

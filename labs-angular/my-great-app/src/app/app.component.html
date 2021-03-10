@@ -2,6 +2,15 @@
   Welcome to {{ title }}  <!-- one-way interpolation -->
 </h1>
 
+<app-numeric-input
+  [value]="myNumber"
+  (resetClicked)="onReset()">
+</app-numeric-input>
+<app-numeric-input></app-numeric-input>
+<app-numeric-input></app-numeric-input>
+<app-numeric-input></app-numeric-input>
+<app-numeric-input></app-numeric-input>
+
 <button type="button" (click)="title = title + '!'">
   Click me!
 </button>

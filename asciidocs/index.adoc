@@ -1696,13 +1696,26 @@ image:web-frontends-and-backend.png[]
 === SPA - Single Page Application
 
 
+== 2021-02-19
+
+bis exklusive 5.2.4 Output Events
+
+== 2021-02-23
+
+image:dom.png[]
 
 
+== 2021-02-26
 
+bis exkl. 5.3. Exercise: Einheitenumrechner
 
+== 2021-03-09 (Gr.2)
 
+* LZK02
 
+Kap. 6 Accessing Web APIs
 
+image:accessing-web-api.png[]
 
 
 
