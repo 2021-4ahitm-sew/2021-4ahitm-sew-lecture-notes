@@ -1695,10 +1695,14 @@ image:web-frontends-and-backend.png[]
 
 === SPA - Single Page Application
 
+== 2021-02-23
+
+* https://classroom.github.com/a/lkNH8piU[Übung Turmrechnen]
 
 == 2021-02-19
 
 bis exklusive 5.2.4 Output Events
+
 
 == 2021-02-23
 
@@ -1708,6 +1712,10 @@ image:dom.png[]
 == 2021-02-26
 
 bis exkl. 5.3. Exercise: Einheitenumrechner
+
+== 2021-03-02
+
+* https://classroom.github.com/a/hWIQYx05[Übung TODO Liste]
 
 == 2021-03-09 (Gr.2)
 
