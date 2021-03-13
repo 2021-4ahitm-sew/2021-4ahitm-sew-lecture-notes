@@ -1725,7 +1725,9 @@ Kap. 6 Accessing Web APIs
 
 image:accessing-web-api.png[]
 
+== 2021-03-16
 
+* https://classroom.github.com/a/_ZqvzOLn[Übung Zahlen Raten]
 
 
 
