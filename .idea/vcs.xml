@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gh-pages" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/labs-angular/demo-api" vcs="Git" />
   </component>
 </project>
