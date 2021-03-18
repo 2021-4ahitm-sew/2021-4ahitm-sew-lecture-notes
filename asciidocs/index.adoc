@@ -1729,9 +1729,25 @@ image:accessing-web-api.png[]
 
 * https://classroom.github.com/a/_ZqvzOLn[Übung Zahlen Raten]
 
+* Vereinbarung
+** Tour of Heroes bis zum nächsten mal
+*** bis inkl. Kapitel 4: Services
 
 
+[plantuml,webapi,png]
+----
+@startuml
+node browser {
+ component [angular app]
+}
+component quarkus
+[quarkus] -- REST_api
+[angular app] ..> REST_api
+@enduml
+----
 
+
+* TODO: REST-Client in Angular-Technology-Notes überarbeiten
 
 
 
