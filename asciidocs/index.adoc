@@ -1134,7 +1134,7 @@ public class InitBean {
 
 == 2020-11-13
 
-==== Vorgangsweise beim Einrichten
+=== Vorgangsweise beim Einrichten
 
 zB Die Objekte einer Klasse Person sollen in einer DB persisitiert werden
 
@@ -1748,6 +1748,38 @@ component quarkus
 
 
 * TODO: REST-Client in Angular-Technology-Notes überarbeiten
+
+== 2021-03-23 - Gr B
+
+* Services wurden besprochen
+
+== 2021-03-26 - Distance Learning
+
+* Nach den Ferien ist die Gruppe A anwesend
+
+* Bis nach den Ferien ist das Tutorial "Tour of Heroes" fertigzustellen (Gr. A + Gr. B)
+
+** Download der Repositories am 9. April 2021 -> wird bewertet
+
+
+
+== 2021-04-09 (Fr.) - HttpClient & Routing
+
+
+image:rest-overview.png[]
+
+image:rest-jsonb-jsonp.png[]
+
+* Angular HttpClient
+
+
+
+
+
+
+
+
+
 
 
 
