@@ -1134,7 +1134,7 @@ public class InitBean {
 
 == 2020-11-13
 
-=== Vorgangsweise beim Einrichten
+==== Vorgangsweise beim Einrichten
 
 zB Die Objekte einer Klasse Person sollen in einer DB persisitiert werden
 
@@ -1642,6 +1642,25 @@ https://developer.mozilla.org/de/docs/Glossary/HTML[Anatomy of an HTML element]
 * Installieren unter Windows
 ** https://nodejs.org/dist/v14.15.4/node-v14.15.4-x86.msi
 
+=== Angular Übungen
+
+|===
+|Angabe |Fällig
+
+|https://github.com/2021-4ahitm-sew/turmrechnen-starter/blob/master/readme.adoc[Turmrechnen]
+|
+
+|https://github.com/2021-4ahitm-sew/todo-list-starter/blob/master/readme.adoc[TODO Liste]
+|23.03.
+
+|https://github.com/2021-4ahitm-sew/number-guessing-starter/blob/master/readme.adoc[Zahlen Raten]
+|06.04.
+
+|https://github.com/2021-4ahitm-sew/reusable_chart_starter/blob/master/readme.adoc[Wiederverwendbare Charts]
+|20.04.
+
+|===
+
 
 == 2021-01-26
 
@@ -1778,6 +1797,7 @@ image:rest-jsonb-jsonp.png[]
 
 
 
+* https://classroom.github.com/a/sMbpoMkj[Übung Line Charts]
 
 
 
