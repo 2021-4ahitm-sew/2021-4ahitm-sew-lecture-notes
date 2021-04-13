@@ -1774,6 +1774,9 @@ component quarkus
 
 == 2021-03-26 - Distance Learning
 
+.HTML-Attributes vs. DOM-properties
+image:html-attibutes-vs-dom-prperties.png[]
+
 * Nach den Ferien ist die Gruppe A anwesend
 
 * Bis nach den Ferien ist das Tutorial "Tour of Heroes" fertigzustellen (Gr. A + Gr. B)
