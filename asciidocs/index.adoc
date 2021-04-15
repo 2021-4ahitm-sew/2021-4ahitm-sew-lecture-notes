@@ -1659,6 +1659,9 @@ https://developer.mozilla.org/de/docs/Glossary/HTML[Anatomy of an HTML element]
 |https://github.com/2021-4ahitm-sew/reusable_chart_starter/blob/master/readme.adoc[Wiederverwendbare Charts]
 |20.04.
 
+|https://github.com/2021-4ahitm-sew/survey_simple_starter/blob/master/readme.adoc[Simple Survey]
+|04.05.
+
 |===
 
 
@@ -1803,7 +1806,9 @@ image:rest-jsonb-jsonp.png[]
 * https://classroom.github.com/a/sMbpoMkj[Übung Line Charts]
 
 
+== 2021-04-20
 
+* https://classroom.github.com/a/rlw0h2IC[Übung Survey]
 
 
 
