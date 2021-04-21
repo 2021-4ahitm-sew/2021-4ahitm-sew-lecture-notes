@@ -1797,16 +1797,38 @@ image:rest-jsonb-jsonp.png[]
 
 * Angular HttpClient
 
-
-
-
-
-
-
 * https://classroom.github.com/a/sMbpoMkj[Übung Line Charts]
 
+== 2021-04-13
 
-== 2021-04-20
+* FIT (Firmeninformationstag)
+
+* Routing wurde besprochen
+** Warum?
+** jedoch nicht implementiert
+
+* Das *microprojekt* ist zu erstellen
+** Entities
+** Repositories
+** restful Services
+
+
+== 2021-04-16 Routing
+
+* Bsp. route-demo
+
+* Beim *microproject* ist routing einzubauen
+
+
+
+
+
+
+
+
+== 2021-04-20 - Gruppe A
+
+* Wiederholung Routing
 
 * https://classroom.github.com/a/rlw0h2IC[Übung Survey]
 
