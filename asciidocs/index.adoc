@@ -1134,7 +1134,7 @@ public class InitBean {
 
 == 2020-11-13
 
-==== Vorgangsweise beim Einrichten
+=== Vorgangsweise beim Einrichten
 
 zB Die Objekte einer Klasse Person sollen in einer DB persisitiert werden
 
@@ -1763,12 +1763,13 @@ node browser {
  component [angular app]
 }
 component quarkus
-[quarkus] -- REST_api
-[angular app] ..> REST_api
+[quarkus] -right- REST_api
+[angular app] .left.> REST_api
 @enduml
 ----
 
 
+// TODO: REST-Client in Angular-Technology-Notes überarbeiten
 * TODO: REST-Client in Angular-Technology-Notes überarbeiten
 
 == 2021-03-23 - Gr B
@@ -1832,5 +1833,24 @@ image:rest-jsonb-jsonp.png[]
 
 * https://classroom.github.com/a/rlw0h2IC[Übung Survey]
 
+
+== 2021-04-22 - Distance Learning
+
+=== synchronous vs asynchronous
+
+image:angular-blocking-nonblocking.png[]
+
+
+=== How to program asynchronous?
+
+image:angular-async-programming.png[]
+
+* Links for "1. Callbacks"
+** https://nodejs.org/en/docs/guides/blocking-vs-non-blocking/[Overview of Blocking vs Non-Blocking, window="_blank"]
+** https://codecraft.tv/courses/angular/es6-typescript/promises/[Promises, window="_blank"]
+
+=== System Architecture
+
+image:angular-async-services.png[]
 
 
