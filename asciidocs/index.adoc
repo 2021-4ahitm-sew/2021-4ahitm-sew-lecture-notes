@@ -1853,6 +1853,7 @@ image:angular-async-programming.png[]
 
 image:angular-async-services.png[]
 
+* siehe auch: https://www.remotestack.io/angular-httpclient-service-example-tutorial/[Angular 11 HttpClient Service Example: Http GET, POST, PUT & Update Request Tutorial, window="_blank"]
 
 == 2021-04-27
 
