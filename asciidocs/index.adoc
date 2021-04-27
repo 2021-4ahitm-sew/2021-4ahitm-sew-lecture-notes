@@ -1832,7 +1832,6 @@ image:rest-jsonb-jsonp.png[]
 
 * https://classroom.github.com/a/rlw0h2IC[Übung Survey]
 
-== 2021-04-27
 
 
 == 2021-04-22 - Distance Learning
@@ -1853,6 +1852,10 @@ image:angular-async-programming.png[]
 === System Architecture
 
 image:angular-async-services.png[]
+
+
+== 2021-04-27
+
 
 == 2021-05-04
 
