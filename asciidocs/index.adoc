@@ -1660,7 +1660,10 @@ https://developer.mozilla.org/de/docs/Glossary/HTML[Anatomy of an HTML element]
 |20.04.
 
 |https://github.com/2021-4ahitm-sew/survey_simple_starter/blob/master/readme.adoc[Simple Survey]
-|04.05.
+|11.05.
+
+|https://github.com/2021-4ahitm-sew/survey_router_starter/blob/master/readme.adoc[Simple Survey & Router]
+|25.05.
 
 |===
 
@@ -1858,7 +1861,7 @@ image:angular-async-services.png[]
 == 2021-04-27
 
 
-== 2021-05-04
+== 2021-05-11
 
 * https://classroom.github.com/a/mp-YwjVp[Übung Survey & Routing]
 
