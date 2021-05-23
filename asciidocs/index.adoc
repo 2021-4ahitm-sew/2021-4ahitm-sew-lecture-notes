@@ -1865,3 +1865,38 @@ image:angular-async-services.png[]
 
 * https://classroom.github.com/a/mp-YwjVp[Übung Survey & Routing]
 
+== Konkretisierung der Angabe für das Mikroprojekt
+
+* Das Microprojekt besteht aus zwei Teilen:
+** Backend (Quarkus / JakartaEE)
+** Frontend (Angular)
+
+* Zuerst ist das Backend sauber zu erstellen (Ordner `backend` im Repository)
+** Die Tabellen und deren Assoziationen müssen korrekt sein und mind. der 3.NF entsprechen
+** Es sind Endpoints zu erstellen:
+*** Bei den Endpoints dürfen nicht nur die Daten jeweils einer Entität (Tabelle) zurückgegeben werden, sondern es ist mindestens eine Query zu erstellen, die aus mehreren Tabellen Daten zurück gibt.
+*** Auch sind die Werte zu filtern:
+**** zumindest einmal mit QueryParams
+**** zumindest einmal mit PathParams
+*** Mindestens ein Endpoint muss
+**** einen GET-Request
+**** einen POST-Request
+***** einmal mit nur einem Objekt und
+***** einmal mit mehreren Objekten
+**** einen PUT-Request
+**** einen PATCH-Request
+**** und einen DELETE-Request beinhalten
+** Es ist zumindest ein request.http - File im http-requests - Ordner zu erstellen, damit die Abfrage der Endpoints dokumentiert ist
+** In der README.md ist eine sehr rudimentäre Dokumentation enthalten:
+*** Datenmodell
+*** Infos über die Endpoints - dies kann und soll durch einen Swagger ersetzt werden -> Link auf Swagger angeben
+*** Die Default-Swagger-Infos können und sollen durch Annotationen ergänzt werden.
+*** Die Angabe soll als Checkliste angegeben sein, damit auf einen Blick ersichtlich ist, was gemacht wurde.
+*** Wie startet man das Projekt.
+
+IMPORTANT: Es geht grundsätzlich *nicht* darum, dass alle Endpoints (dh für alle Entitäten)  *vollständig ausprogrmmiert* werden.
+Allerdings sind die verschiedenen Konzepte (Queries, Params, Request-Arten, POSTs mit einem und mehreren Objekten als csv oder json) einmal zu implementieren.
+
+* Das Frontend wird später erstellt.
+* Abgabetermin: 25. Mai 2021, 8:00
+* Als Repo wird https://classroom.github.com/a/9GYk1-VC[17-microproject] verwendet
