@@ -1665,6 +1665,9 @@ https://developer.mozilla.org/de/docs/Glossary/HTML[Anatomy of an HTML element]
 |https://github.com/2021-4ahitm-sew/survey_router_starter/blob/master/readme.adoc[Simple Survey & Router]
 |25.05.
 
+|https://github.com/2021-4ahitm-sew/survey_server_starter/blob/master/readme.adoc[Simple Survey & Server]
+|01.06.
+
 |===
 
 
@@ -1900,3 +1903,7 @@ Allerdings sind die verschiedenen Konzepte (Queries, Params, Request-Arten, POST
 * Das Frontend wird später erstellt.
 * Abgabetermin: 25. Mai 2021, 8:00
 * Als Repo wird https://classroom.github.com/a/9GYk1-VC[17-microproject] verwendet
+
+== 2021-05-25
+
+* https://classroom.github.com/a/Oc2sodPZ[Übung Survey + Server]
